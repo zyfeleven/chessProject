@@ -15,8 +15,10 @@ public class nullPiece implements Piece{
         return false;
     }
 
-    public int[] curPosition(){
-        return this.position;
+    public void setCurPosition(int i, int j){
+        this.position[0] = i;
+        this.position[1] = j;
+        return;
     }
 
     public char getName(){

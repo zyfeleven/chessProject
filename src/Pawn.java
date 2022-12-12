@@ -23,7 +23,7 @@ public class Pawn implements Piece{
             if(position[1]!=this.position[1]){
                 return false;
             }
-            if(this.position[0] - position[0]!=1 && this.position[0] - position[0]!=2){
+            if(this.position[0] - position[0] != 1 && this.position[0] - position[0] != 2){
                 return false;
             }
             if(this.position[0] - position[0] == 2 && !firstStep){
@@ -50,8 +50,10 @@ public class Pawn implements Piece{
         return true;
     }
 
-    public int[] curPosition(){
-        return this.position;
+    public void setCurPosition(int i, int j){
+        this.position[0] = i;
+        this.position[1] = j;
+        return;
     }
 
     public char getName(){

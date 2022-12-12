@@ -35,15 +35,17 @@ public class Knight implements Piece{
             return false;
         }
         //if the destination has friendly piece then return false
-        if(board[position[1]][position[0]].getUser() == this.user){
+        if(board[position[0]][position[1]].getUser() == this.user){
             System.out.println("You can't capture piece of yourself!");
             return false;
         }
         return true;
     }
 
-    public int[] curPosition(){
-        return this.position;
+    public void setCurPosition(int i, int j){
+        this.position[0] = i;
+        this.position[1] = j;
+        return;
     }
 
     public char getName(){

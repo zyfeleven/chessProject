@@ -34,9 +34,17 @@ public class Game {
                     }
                     System.out.println("Your choice is "+from);
                     System.out.println("1.Sure 2.Cancel");
-                    int command = Integer.valueOf(scanner.nextLine());
+                    String str = scanner.nextLine();
+                    if(str.length()!=1){
+                        System.out.println("Invalid command! Please try again!");
+                        continue;
+                    }
+                    int command = Integer.valueOf(str);
                     if(command == 1){
                         break;
+                    }
+                    else{
+                        System.out.println("Invalid command! Please try again!");
                     }
                 }
                 while(true){
@@ -46,9 +54,17 @@ public class Game {
                     to = scanner.nextLine();
                     System.out.println("Your choice is "+to);
                     System.out.println("1.Sure 2.Cancel");
-                    int command = Integer.valueOf(scanner.nextLine());
+                    String str = scanner.nextLine();
+                    if(str.length()!=1){
+                        System.out.println("Invalid command! Please try again!");
+                        continue;
+                    }
+                    int command = Integer.valueOf(str);
                     if(command == 1){
                         break;
+                    }
+                    else{
+                        System.out.println("Invalid command! Please try again!");
                     }
                 }
                 if(this.board.canMove(from, to)){
@@ -74,9 +90,17 @@ public class Game {
                     }
                     System.out.println("Your choice is "+from);
                     System.out.println("1.Sure 2.Cancel");
-                    int command = Integer.parseInt(scanner.nextLine());
+                    String str = scanner.nextLine();
+                    if(str.length()!=1){
+                        System.out.println("Invalid command! Please try again!");
+                        continue;
+                    }
+                    int command = Integer.valueOf(str);
                     if(command == 1){
                         break;
+                    }
+                    else{
+                        System.out.println("Invalid command! Please try again!");
                     }
                 }
                 while(true){
@@ -86,9 +110,17 @@ public class Game {
                     to = scanner.nextLine();
                     System.out.println("Your choice is "+to);
                     System.out.println("1.Sure 2.Cancel");
-                    int command = Integer.parseInt(scanner.nextLine());
+                    String str = scanner.nextLine();
+                    if(str.length()!=1){
+                        System.out.println("Invalid command! Please try again!");
+                        continue;
+                    }
+                    int command = Integer.valueOf(str);
                     if(command == 1){
                         break;
+                    }
+                    else{
+                        System.out.println("Invalid command! Please try again!");
                     }
                 }
                 if(this.board.canMove(from, to)){

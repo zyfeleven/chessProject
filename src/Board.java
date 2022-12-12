@@ -308,6 +308,8 @@ public class Board {
                 return;
             }
         }
+        //if the movement is valid then update position information
+        this.board[typosition][txposition].setCurPosition(typosition, txposition);
         //if the king is moved then update the king's position
         if(this.board[typosition][txposition].getName()=='k'){
             this.kingPosition[1][0] = typosition;
@@ -339,7 +341,7 @@ public class Board {
             for(int i = 0;i<8;i++){
                 for(int j = 0;j<8;j++){
                     if(this.board[i][j].getName()!='-'&&this.board[i][j].getUser()=='b'){
-                        if(canMove(i,j,this.kingPosition[0][0],this.kingPosition[0][1])){
+                        if(canMove(i,j,this.kingPosition[1][0],this.kingPosition[1][1])){
                             return true;
                         }
                     }
