@@ -79,7 +79,7 @@ public class Board {
             int color = Integer.valueOf(scanner.nextLine());
             System.out.println("Please choose a position to put your piece (for example: 1a):");
             String position = scanner.nextLine();
-            setPiece(type, color, position);
+            setPiece(type, color, position, 0);
             this.printBoard();
             System.out.println("1. Continue 2. Quit");
             int command = Integer.valueOf(scanner.nextLine());
@@ -116,7 +116,7 @@ public class Board {
     }
 
     //set the specific position to specific piece
-    public void setPiece(int type, int color, String position){
+    public void setPiece(int type, int color, String position, int considerCover){
         //convert string to int
         int yposition = position.charAt(0) - '1';
         yposition = 7 - yposition;
@@ -127,14 +127,16 @@ public class Board {
             return;
         }
         int[] pos = new int[]{yposition,xposition};
-        //if the chosen position is not empty
-        if(this.board[yposition][xposition].getName()!='-'){
-            Scanner s = new Scanner(System.in);
-            System.out.println("There is already a piece at the position, do you wanna cover it?");
-            System.out.println("1. Cover 2. Cancel");
-            int command = Integer.valueOf(s.nextLine());
-            if(command == 2){
-                return;
+        //if the chosen position is not empty and we need to consider about it
+        if(considerCover == 0){
+            if(this.board[yposition][xposition].getName()!='-'){
+                Scanner s = new Scanner(System.in);
+                System.out.println("There is already a piece at the position, do you wanna cover it?");
+                System.out.println("1. Cover 2. Cancel");
+                int command = Integer.valueOf(s.nextLine());
+                if(command == 2){
+                    return;
+                }
             }
         }
         //decide piece's type and color by the input parameters
@@ -318,6 +320,23 @@ public class Board {
         if(this.board[typosition][txposition].getName()=='K'){
             this.kingPosition[0][0] = typosition;
             this.kingPosition[0][1] = txposition;
+        }
+        //if there is pawn promotion:
+        if(typosition==0&&this.board[typosition][txposition].getName()=='p'){
+            System.out.println("Your pawn has the chance to promote now!");
+            System.out.println("Please choose one type of piece: ");
+            System.out.println("1. Rook 2. Knight 3. Bishop 4. Queen 5. King 6. Pawn");
+            Scanner scanner = new Scanner(System.in);
+            int type = Integer.valueOf(scanner.nextLine());
+            setPiece(type, 2, to, 1);
+        }
+        else if(typosition==7&&this.board[typosition][txposition].getName()=='P'){
+            System.out.println("Your pawn has the chance to promote now!");
+            System.out.println("Please choose one type of piece: ");
+            System.out.println("1. Rook 2. Knight 3. Bishop 4. Queen 5. King 6. Pawn");
+            Scanner scanner = new Scanner(System.in);
+            int type = Integer.valueOf(scanner.nextLine());
+            setPiece(type, 1, to, 1);
         }
         this.board[typosition][txposition].firstStep();
     }
