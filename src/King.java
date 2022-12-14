@@ -27,7 +27,7 @@ public class King implements Piece{
             return false;
         }
         if(board[position[0]][position[1]].getUser() == this.user){
-            System.out.println("You can't capture piece of yourself!");
+            //System.out.println("You can't capture piece of yourself!");
             return false;
         }
         return true;

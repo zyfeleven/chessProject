@@ -265,7 +265,7 @@ public class Board {
         }
         //if the position of from and to are the same, return false
         if(fy==ty&&fx==tx){
-            System.out.println("Invalid position: you can't move the piece to where it is!");
+            //System.out.println("Invalid position: you can't move the piece to where it is!");
             return false;
         }
         //call piece.canMove()
@@ -279,7 +279,8 @@ public class Board {
 
     //move the piece
     //notice that this method is called only when the piece can move from one tile to another tile
-    public void movePiece(String from, String to){
+    //provide user hint if the parameter hint is 1
+    public boolean movePiece(String from, String to, int hint){
         //convert string to int
         int fyposition = from.charAt(0) - '1';
         fyposition = 7 - fyposition;
@@ -293,25 +294,7 @@ public class Board {
         this.board[typosition][txposition] = this.board[fyposition][fxposition];
         this.board[fyposition][fxposition] = new nullPiece(fyposition,fxposition);
         char user = this.board[typosition][txposition].getUser();
-        //if the user is checkmated after the movement then recover the movement
-        if(user=='b'){
-            if(isCheckmated(1)){
-                System.out.println("Invalid movement: You are checkmated after this movement");
-                this.board[fyposition][fxposition] = this.board[typosition][txposition];
-                this.board[typosition][txposition] = temp;
-                return;
-            }
-        }
-        else if(user=='w'){
-            if(isCheckmated(2)){
-                System.out.println("Invalid movement: You are checkmated after this movement");
-                this.board[fyposition][fxposition] = this.board[typosition][txposition];
-                this.board[typosition][txposition] = temp;
-                return;
-            }
-        }
-        //if the movement is valid then update position information
-        this.board[typosition][txposition].setCurPosition(typosition, txposition);
+
         //if the king is moved then update the king's position
         if(this.board[typosition][txposition].getName()=='k'){
             this.kingPosition[1][0] = typosition;
@@ -321,6 +304,39 @@ public class Board {
             this.kingPosition[0][0] = typosition;
             this.kingPosition[0][1] = txposition;
         }
+
+        //if the user is checkmated after the movement then recover the movement
+        if(user=='b'){
+            if(isCheckmated(1)){
+                if(hint == 1){
+                    System.out.println("Invalid movement: You are checkmated after this movement");
+                }
+                this.board[fyposition][fxposition] = this.board[typosition][txposition];
+                this.board[typosition][txposition] = temp;
+                if(this.board[typosition][txposition].getName()=='K'){
+                    this.kingPosition[0][0] = fyposition;
+                    this.kingPosition[0][1] = fxposition;
+                }
+                return false;
+            }
+        }
+        else if(user=='w'){
+            if(isCheckmated(2)){
+                if(hint == 1){
+                    System.out.println("Invalid movement: You are checkmated after this movement");
+                }
+                this.board[fyposition][fxposition] = this.board[typosition][txposition];
+                this.board[typosition][txposition] = temp;
+                if(this.board[typosition][txposition].getName()=='k'){
+                    this.kingPosition[1][0] = fyposition;
+                    this.kingPosition[1][1] = fxposition;
+                }
+                return false;
+            }
+        }
+        //if the movement is valid then update position information
+        this.board[typosition][txposition].setCurPosition(typosition, txposition);
+
         //if there is pawn promotion:
         if(typosition==0&&this.board[typosition][txposition].getName()=='p'){
             System.out.println("Your pawn has the chance to promote now!");
@@ -339,6 +355,52 @@ public class Board {
             setPiece(type, 1, to, 1);
         }
         this.board[typosition][txposition].firstStep();
+        return true;
+    }
+
+    //override when parameters are integers (only used for checking if the game is over)
+    public boolean movePiece(int fy, int fx, int ty, int tx){
+        //store the piece that might be covered later
+        Piece temp = this.board[ty][tx];
+        //finish the movement
+        this.board[ty][tx] = this.board[fy][fx];
+        this.board[fy][fx] = new nullPiece(fy,fx);
+        char user = this.board[ty][tx].getUser();
+        //if the king is moved then update the king's position
+        if(this.board[ty][tx].getName()=='k'){
+            this.kingPosition[1][0] = ty;
+            this.kingPosition[1][1] = tx;
+        }
+        if(this.board[ty][tx].getName()=='K'){
+            this.kingPosition[0][0] = ty;
+            this.kingPosition[0][1] = tx;
+        }
+        //if the user is checkmated after the movement then recover the movement
+        if(user=='b'){
+            if(this.isCheckmated(1)){
+                this.board[fy][fx] = this.board[ty][tx];
+                this.board[ty][tx] = temp;
+                if(this.board[fy][fx].getName()=='K'){
+                    this.kingPosition[0][0] = fy;
+                    this.kingPosition[0][1] = fx;
+                }
+                return false;
+            }
+        }
+        else if(user=='w'){
+            if(this.isCheckmated(2)){
+                this.board[fy][fx] = this.board[ty][tx];
+                this.board[ty][tx] = temp;
+                if(this.board[fy][fx].getName()=='k'){
+                    this.kingPosition[1][0] = fy;
+                    this.kingPosition[1][1] = fx;
+                }
+                return false;
+            }
+        }
+        this.board[fy][fx] = this.board[ty][tx];
+        this.board[ty][tx] = temp;
+        return true;
     }
 
     //check if one user's king is checkmated
@@ -368,5 +430,67 @@ public class Board {
             }
         }
         return false;
+    }
+
+    //check if one user's king is checkmated and there is no valid movement
+    //user==1 ----check Black
+    //user==2 ----check White
+    public boolean isGameover(int user){
+        int gameover = 0;// if gameover = 0 in the end then the game is over
+        if(user==1){
+            for(int i = 0;i<8;i++){
+                for(int j = 0;j<8;j++){
+                    if(this.board[i][j].getName()!='-'&&this.board[i][j].getUser()=='b'){
+                        for(int k = 0;k<8;k++){
+                            for(int l = 0;l<8;l++){
+                                if(canMove(i,j,k,l)){
+                                    if(movePiece(i,j,k,l)){
+                                        gameover = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(gameover == 1){
+                                break;
+                            }
+                        }
+                    }
+                    if(gameover == 1){
+                        break;
+                    }
+                }
+                if(gameover == 1){
+                    break;
+                }
+            }
+        }
+        else if(user == 2){
+            for(int i = 0;i<8;i++){
+                for(int j = 0;j<8;j++){
+                    if(this.board[i][j].getName()!='-'&&this.board[i][j].getUser()=='w'){
+                        for(int k = 0;k<8;k++){
+                            for(int l = 0;l<8;l++){
+                                if(canMove(i,j,k,l)){
+                                    if(movePiece(i,j,k,l)){
+                                        gameover = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(gameover == 1){
+                                break;
+                            }
+                        }
+                    }
+                    if(gameover == 1){
+                        break;
+                    }
+                }
+                if(gameover == 1){
+                    break;
+                }
+            }
+        }
+        return (gameover==0);
     }
 }

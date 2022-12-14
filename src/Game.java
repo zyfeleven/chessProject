@@ -3,6 +3,9 @@ import java.util.Scanner;
 public class Game {
     // game control process : start, choose user(PVP OR PV AI), judge if the game is over, restart...
     private Board board;
+    private boolean isCheckmatedB;
+    private boolean isCheckmatedW;
+    private boolean gameover;
     Game(){
         System.out.println("Welcome to the chess game!");
         System.out.println("Please choose mode: ");
@@ -23,15 +26,27 @@ public class Game {
     public void pvp(){
         this.board = new Board();
         board.defaultSetting();
+        this.isCheckmatedB = false;
+        this.isCheckmatedW = false;
+        this.gameover = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
-        while(!this.gameover()){
+        while(!this.gameover){
             //black movement
-            while(true){
+            while(!this.gameover){
                 String from = "";
                 String to = "";
-                while(true){
+                while(!this.gameover){
                     this.board.printBoard();
+                    isCheckmatedB = this.board.isCheckmated(1);
+                    if(isCheckmatedB){
+                        if(this.board.isGameover(1)){
+                            winner = "White";
+                            this.gameover = true;
+                            break;
+                        }
+                        System.out.println("You're checkmated!");
+                    }
                     System.out.println("Black's turn, please choose a piece (for example: 1a):");
                     from = scanner.nextLine();
                     if(board.getPiece(from).getUser()!='b'){
@@ -53,7 +68,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                while(true){
+                while(!this.gameover){
                     this.board.printBoard();
                     System.out.println("You have selected "+from);
                     System.out.println("Please choose a position to go (for example: 1a):");
@@ -73,21 +88,36 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                if(this.board.canMove(from, to)){
-                    this.board.movePiece(from, to);
+                if(this.gameover){
                     break;
                 }
-            }
-            if(this.gameover()){
-                winner = "Black";
-                break;
+                if(this.board.canMove(from, to)){
+                    if(this.board.movePiece(from, to,1)){
+                        break;
+                    }
+                    else{
+                        System.out.println("Invalid movement: please follow the rule");
+                    }
+                }
+                else{
+                    System.out.println("Invalid movement: please follow the rule");
+                }
             }
             //white movement
-            while(true){
+            while(!this.gameover){
                 String from = "";
                 String to = "";
-                while(true){
+                while(!this.gameover){
                     this.board.printBoard();
+                    isCheckmatedW = this.board.isCheckmated(2);
+                    if(isCheckmatedW){
+                        if(this.board.isGameover(2)){
+                            winner = "Black";
+                            this.gameover = true;
+                            break;
+                        }
+                        System.out.println("You're checkmated!");
+                    }
                     System.out.println("White's turn, please choose a piece (for example: 1a):");
                     from = scanner.nextLine();
                     if(board.getPiece(from).getUser()!='w'){
@@ -109,7 +139,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                while(true){
+                while(!this.gameover){
                     this.board.printBoard();
                     System.out.println("You have selected "+from);
                     System.out.println("Please choose a position to go (for example: 1a):");
@@ -129,15 +159,23 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                if(this.board.canMove(from, to)){
-                    this.board.movePiece(from, to);
+                if(this.gameover){
                     break;
+                }
+                if(this.board.canMove(from, to)){
+                    if(this.board.movePiece(from, to,1)){
+                        break;
+                    }
+                    else{
+                        System.out.println("Invalid movement: please follow the rule");
+                    }
                 }
                 else{
                     System.out.println("Invalid movement: please follow the rule");
                 }
             }
         }
+        System.out.println("Game over! The winner is "+winner+"!");
     }
 
     public void practice(){
@@ -194,7 +232,7 @@ public class Game {
                     }
                 }
                 if(this.board.canMove(from, to)){
-                    this.board.movePiece(from, to);
+                    this.board.movePiece(from, to,1);
                     break;
                 }
             }
@@ -250,7 +288,7 @@ public class Game {
                     }
                 }
                 if(this.board.canMove(from, to)){
-                    this.board.movePiece(from, to);
+                    this.board.movePiece(from, to,1);
                     break;
                 }
                 else{

@@ -25,37 +25,37 @@ public class Bishop implements Piece{
             return false;
         }
         //check diagonally
-        else if(position[0]>this.position[0]&&position[1]>this.position[1]){
+        if(position[0]>this.position[0]&&position[1]>this.position[1]){
             for(int i = 1;i<position[0]-this.position[0];i++){
-                if(board[this.position[1]+i][this.position[0]+i].getName()!='-'){
+                if(board[this.position[0]+i][this.position[1]+i].getName()!='-'){
                     return false;
                 }
             }
         }
         else if(position[0]>this.position[0]&&position[1]<this.position[1]){
             for(int i = 1;i<position[0]-this.position[0];i++){
-                if(board[this.position[1]-i][this.position[0]+i].getName()!='-'){
+                if(board[this.position[0]+i][this.position[1]-i].getName()!='-'){
                     return false;
                 }
             }
         }
         else if(position[0]<this.position[0]&&position[1]<this.position[1]){
             for(int i = 1;i<position[0]-this.position[0];i++){
-                if(board[this.position[1]-i][this.position[0]-i].getName()!='-'){
+                if(board[this.position[0]-i][this.position[1]-i].getName()!='-'){
                     return false;
                 }
             }
         }
         else if(position[0]<this.position[0]&&position[1]>this.position[1]){
             for(int i = 1;i<position[0]-this.position[0];i++){
-                if(board[this.position[1]+i][this.position[0]-i].getName()!='-'){
+                if(board[this.position[0]-i][this.position[1]+i].getName()!='-'){
                     return false;
                 }
             }
         }
         //if the destination has friendly piece then return false
         if(board[position[0]][position[1]].getUser() == this.user){
-            System.out.println("You can't capture piece of yourself!");
+            //System.out.println("You can't capture piece of yourself!");
             return false;
         }
         return true;
