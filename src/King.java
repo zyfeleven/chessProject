@@ -1,15 +1,13 @@
 public class King implements Piece{
     private int[] position;
-    private boolean isCaptured;
-    private char user;// 'b' is Black and 'w' is white
+    private final char user;// 'b' is Black and 'w' is white
 
-    private char name;
+    private final char name;
     public boolean firstStep;
 
     King(int[] position, char user){
         this.position = position;
         this.user = user;
-        this.isCaptured = false;
         if(user=='b'){
             this.name = 'K';
         }
@@ -28,16 +26,12 @@ public class King implements Piece{
             //System.out.println("You can't capture piece of yourself!");
             return false;
         }
-        if(Math.abs(pos[1]-this.position[1])>1){
-            return false;
-        }
-        return true;
+        return Math.abs(pos[1] - this.position[1]) <= 1;
     }
 
     public void setCurPosition(int i, int j){
         this.position[0] = i;
         this.position[1] = j;
-        return;
     }
 
     public char getName(){
@@ -59,7 +53,6 @@ public class King implements Piece{
         return false;
     }
     public void cancelEnPassant(){
-        return;
     }
 
 }

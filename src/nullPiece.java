@@ -1,7 +1,7 @@
 public class nullPiece implements Piece{
     private int[] position;
-    private char name;
-    private char user;
+    private final char name;
+    private final char user;
     private boolean firstStep;
 
     nullPiece(int x, int y){
@@ -18,7 +18,6 @@ public class nullPiece implements Piece{
     public void setCurPosition(int i, int j){
         this.position[0] = i;
         this.position[1] = j;
-        return;
     }
 
     public char getName(){
@@ -41,6 +40,5 @@ public class nullPiece implements Piece{
     }
 
     public void cancelEnPassant(){
-        return;
     }
 }

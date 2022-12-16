@@ -1,15 +1,13 @@
 public class Pawn implements Piece{
     private int[] position;
-    private boolean isCaptured;
-    private char user;
-    private char name;
+    private final char user;
+    private final char name;
     private boolean firstStep;
     private boolean enPassant;
 
     Pawn(int[] position, char user){
         this.position = position;
         this.user = user;
-        this.isCaptured = false;
         this.enPassant = false;
         if(user=='b'){
             this.name = 'P';
@@ -78,7 +76,6 @@ public class Pawn implements Piece{
     public void setCurPosition(int i, int j){
         this.position[0] = i;
         this.position[1] = j;
-        return;
     }
 
     public char getName(){
@@ -102,6 +99,5 @@ public class Pawn implements Piece{
 
     public void cancelEnPassant(){
         this.enPassant = false;
-        return;
     }
 }

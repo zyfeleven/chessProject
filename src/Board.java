@@ -238,12 +238,7 @@ public class Board {
             return false;
         }
         //call piece.canMove()
-        if(this.board[fyposition][fxposition].canMove(new int[]{typosition, txposition}, this.board)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return this.board[fyposition][fxposition].canMove(new int[]{typosition, txposition}, this.board);
     }
 
     //override canMove() when parameters are integers
@@ -752,6 +747,5 @@ public class Board {
                 }
             }
         }
-        return;
     }
 }

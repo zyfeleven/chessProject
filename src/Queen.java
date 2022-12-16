@@ -1,13 +1,11 @@
 public class Queen implements Piece{
     private int[] position;
-    private boolean isCaptured;
-    private char user;
-    private char name;
+    private final char user;
+    private final char name;
     private boolean firstStep;
 
     Queen(int[] position, char user){
         this.position = position;
-        this.isCaptured = false;
         this.user = user;
         if(user=='b'){
             this.name = 'Q';
@@ -69,21 +67,21 @@ public class Queen implements Piece{
                     }
                 }
             }
-            else if(pos[0]>this.position[0]&&pos[1]<this.position[1]){
+            else if(pos[0]>this.position[0]){
                 for(int i = 1;i<pos[0]-this.position[0];i++){
                     if(board[this.position[0]+i][this.position[1]-i].getName()!='-'){
                         return false;
                     }
                 }
             }
-            else if(pos[0]<this.position[0]&&pos[1]<this.position[1]){
+            else if(pos[1]<this.position[1]){
                 for(int i = 1;i<pos[0]-this.position[0];i++){
                     if(board[this.position[0]-i][this.position[1]-i].getName()!='-'){
                         return false;
                     }
                 }
             }
-            else if(pos[0]<this.position[0]&&pos[1]>this.position[1]){
+            else {
                 for(int i = 1;i<pos[0]-this.position[0];i++){
                     if(board[this.position[0]-i][this.position[1]+i].getName()!='-'){
                         return false;
@@ -91,17 +89,13 @@ public class Queen implements Piece{
                 }
             }
         //if the destination has friendly piece then return false
-        if(board[pos[0]][pos[1]].getUser() == this.user){
-            //System.out.println("You can't capture piece of yourself!");
-            return false;
-        }
-        return true;
+        //System.out.println("You can't capture piece of yourself!");
+        return board[pos[0]][pos[1]].getUser() != this.user;
     }
 
     public void setCurPosition(int i, int j){
         this.position[0] = i;
         this.position[1] = j;
-        return;
     }
 
     public char getName(){
@@ -124,6 +118,5 @@ public class Queen implements Piece{
         return false;
     }
     public void cancelEnPassant(){
-        return;
     }
 }

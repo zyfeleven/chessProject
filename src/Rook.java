@@ -1,14 +1,12 @@
 public class Rook implements Piece{
     private int[] position;
-    private boolean isCaptured;
-    private char user;
-    private char name;
+    private final char user;
+    private final char name;
     private boolean firstStep;
 
     Rook(int[] position, char user){
         this.position = position;
         this.user = user;
-        this.isCaptured = false;
         if(user=='b'){
             this.name = 'R';
         }
@@ -63,18 +61,14 @@ public class Rook implements Piece{
             }
             //todo: judge if castling possible
             //if the destination has friendly piece then return false
-            if(board[pos[0]][pos[1]].getUser() == this.user){
-                //System.out.println("You can't capture piece of yourself!");
-                return false;
-            }
-            return true;
+            //System.out.println("You can't capture piece of yourself!");
+            return board[pos[0]][pos[1]].getUser() != this.user;
         }
     }
 
     public void setCurPosition(int i, int j){
         this.position[0] = i;
         this.position[1] = j;
-        return;
     }
 
     public char getName(){
@@ -97,6 +91,5 @@ public class Rook implements Piece{
         return false;
     }
     public void cancelEnPassant(){
-        return;
     }
 }
