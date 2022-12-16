@@ -4,4 +4,8 @@ public interface Piece {
     public char getName();
     public char getUser();
     public void firstStep();
+    public boolean isFirstStep();
+
+    public boolean enPassant();
+    public void cancelEnPassant();
 }

@@ -354,6 +354,18 @@ public class Board {
             int type = Integer.valueOf(scanner.nextLine());
             setPiece(type, 1, to, 1);
         }
+
+        //if there is enPassant
+        if(this.board[typosition][txposition].getName()=='p'){
+            if(this.board[typosition+1][txposition].enPassant()){
+                this.board[typosition+1][txposition] = new nullPiece(typosition+1,txposition);
+            }
+        }
+        if(this.board[typosition][txposition].getName()=='P'){
+            if(this.board[typosition-1][txposition].enPassant()){
+                this.board[typosition-1][txposition] = new nullPiece(typosition-1,txposition);
+            }
+        }
         this.board[typosition][txposition].firstStep();
         return true;
     }
@@ -492,5 +504,254 @@ public class Board {
             }
         }
         return (gameover==0);
+    }
+
+    //user == 1: black
+    //user == 2: white
+    public boolean canCastling(int user){
+        if(user == 1){
+            if(!board[this.kingPosition[0][0]][this.kingPosition[0][1]].isFirstStep()){
+                return false;
+            }
+            int temp = this.kingPosition[0][1];
+            for(int i = 0;i<8;i++){
+                if(board[0][i].getName() == 'R'){
+                    if(!board[0][i].isFirstStep()){
+                        continue;
+                    }
+                    else{
+                        if(i == 0){
+                            for(int j = 1;j<4;j++){
+                                if(board[0][j].getName()!='-'){
+                                    return false;
+                                }
+                            }
+                            for(int j = 1;j<3;j++){
+                                this.kingPosition[0][1]--;
+                                if(isCheckmated(1)){
+                                    this.kingPosition[0][1] = temp;
+                                    return false;
+                                }
+                            }
+                            this.kingPosition[0][1] = temp;
+                            return true;
+                        }
+                        else if(i == 7){
+                            for(int j = 5;j<7;j++){
+                                if(board[0][j].getName()!='-'){
+                                    return false;
+                                }
+                            }
+                            for(int j = 1;j<3;j++){
+                                this.kingPosition[0][1]++;
+                                if(isCheckmated(1)){
+                                    this.kingPosition[0][1] = temp;
+                                    return false;
+                                }
+                            }
+                            this.kingPosition[0][1] = temp;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        else{
+            if(!board[this.kingPosition[1][0]][this.kingPosition[1][1]].isFirstStep()){
+                return false;
+            }
+            int temp = this.kingPosition[1][1];
+            for(int i = 0;i<8;i++){
+                if(board[7][i].getName() == 'r'){
+                    if(!board[7][i].isFirstStep()){
+                        continue;
+                    }
+                    else{
+                        if(i == 0){
+                            for(int j = 1;j<4;j++){
+                                if(board[7][j].getName()!='-'){
+                                    return false;
+                                }
+                            }
+                            for(int j = 1;j<3;j++){
+                                this.kingPosition[1][1]--;
+                                if(isCheckmated(2)){
+                                    this.kingPosition[1][1] = temp;
+                                    return false;
+                                }
+                            }
+                            this.kingPosition[1][1] = temp;
+                            return true;
+                        }
+                        else if(i == 7){
+                            for(int j = 5;j<7;j++){
+                                if(board[7][j].getName()!='-'){
+                                    return false;
+                                }
+                            }
+                            for(int j = 1;j<3;j++){
+                                this.kingPosition[1][1]++;
+                                if(isCheckmated(2)){
+                                    this.kingPosition[1][1] = temp;
+                                    return false;
+                                }
+                            }
+                            this.kingPosition[1][1] = temp;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+    }
+    //user == 1: Black
+    //user == 2: White
+    public boolean castling(int user, String positionR){
+        int fyposition = positionR.charAt(0) - '1';
+        fyposition = 7 - fyposition;
+        int fxposition = positionR.charAt(1) - 'a';
+        if(this.board[fyposition][fxposition].getName()!='R'&&this.board[fyposition][fxposition].getName()!='r'){
+            System.out.println("Invalid castling.");
+            return false;
+        }
+        if(user == 1){
+            int temp = this.kingPosition[0][1];
+            if(fxposition == 0){
+                boolean canCastling = true;
+                for(int j = 1;j<4;j++){
+                    if(board[0][j].getName()!='-'){
+                        canCastling = false;
+                        break;
+                    }
+                }
+                for(int j = 1;j<3;j++){
+                    this.kingPosition[0][1]--;
+                    if(isCheckmated(1)){
+                        this.kingPosition[0][1] = temp;
+                        canCastling = false;
+                        break;
+                    }
+                }
+                this.kingPosition[0][1] = temp;
+                if(canCastling){
+                    this.board[0][2] = new King(new int[]{0,2},'b');
+                    this.board[0][3] = new Rook(new int[]{0,3},'b');
+                    this.board[0][0] = new nullPiece(0,0);
+                    this.board[0][4] = new nullPiece(0,4);
+                    this.kingPosition[0][1] = 2;
+                    return true;
+                }
+                else{
+                    System.out.println("Invalid castling.");
+                    return false;
+                }
+            }
+            else if(fxposition == 7){
+                boolean canCastling = true;
+                for(int j = 5;j<7;j++){
+                    if(board[0][j].getName()!='-'){
+                        canCastling = false;
+                        break;
+                    }
+                }
+                for(int j = 1;j<3;j++){
+                    this.kingPosition[0][1]++;
+                    if(isCheckmated(1)){
+                        this.kingPosition[0][1] = temp;
+                        canCastling = false;
+                        break;
+                    }
+                }
+                this.kingPosition[0][1] = temp;
+                if(canCastling){
+                    this.board[0][6] = new King(new int[]{0,6},'b');
+                    this.board[0][5] = new Rook(new int[]{0,5},'b');
+                    this.board[0][7] = new nullPiece(0,7);
+                    this.board[0][4] = new nullPiece(0,4);
+                    this.kingPosition[0][1] = 6;
+                    return true;
+                }
+                else{
+                    System.out.println("Invalid castling.");
+                    return false;
+                }
+            }
+        }
+        else{
+            int temp = this.kingPosition[1][1];
+            if(fxposition == 0){
+                boolean canCastling = true;
+                for(int j = 1;j<4;j++){
+                    if(board[7][j].getName()!='-'){
+                        canCastling = false;
+                        break;
+                    }
+                }
+                for(int j = 1;j<3;j++){
+                    this.kingPosition[1][1]--;
+                    if(isCheckmated(1)){
+                        this.kingPosition[1][1] = temp;
+                        canCastling = false;
+                        break;
+                    }
+                }
+                this.kingPosition[1][1] = temp;
+                if(canCastling){
+                    this.board[7][2] = new King(new int[]{7,2},'b');
+                    this.board[7][3] = new Rook(new int[]{7,3},'b');
+                    this.board[7][0] = new nullPiece(7,0);
+                    this.board[7][4] = new nullPiece(7,4);
+                    this.kingPosition[1][1] = 2;
+                    return true;
+                }
+                System.out.println("Invalid castling.");
+                return false;
+            }
+            else if(fxposition == 7){
+                boolean canCastling = true;
+                for(int j = 5;j<7;j++){
+                    if(board[7][j].getName()!='-'){
+                        canCastling = false;
+                        break;
+                    }
+                }
+                for(int j = 1;j<3;j++){
+                    this.kingPosition[1][1]++;
+                    if(isCheckmated(2)){
+                        this.kingPosition[1][1] = temp;
+                        canCastling = false;
+                        break;
+                    }
+                }
+                this.kingPosition[0][1] = temp;
+                if(canCastling){
+                    this.board[7][6] = new King(new int[]{7,6},'b');
+                    this.board[7][5] = new Rook(new int[]{7,5},'b');
+                    this.board[7][7] = new nullPiece(7,7);
+                    this.board[7][4] = new nullPiece(7,4);
+                    this.kingPosition[1][1] = 6;
+                    return true;
+                }
+                System.out.println("Invalid castling.");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public void cancelEnPassant(int user){
+        for(int i = 0;i<8;i++){
+            for(int j = 0;j<8;j++){
+                if(this.board[i][j].getUser()=='b'&&user==1){
+                    this.board[i][j].cancelEnPassant();
+                }
+                else if(this.board[i][j].getUser()=='w'&&user==2){
+                    this.board[i][j].cancelEnPassant();
+                }
+            }
+        }
+        return;
     }
 }

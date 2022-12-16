@@ -25,7 +25,7 @@ public class Game {
 
     public void pvp(){
         this.board = new Board();
-        board.customSetting();
+        board.defaultSetting();
         this.isCheckmatedB = false;
         this.isCheckmatedW = false;
         this.gameover = false;
@@ -36,16 +36,34 @@ public class Game {
             while(!this.gameover){
                 String from = "";
                 String to = "";
+                boolean castling = false;
                 while(!this.gameover){
                     this.board.printBoard();
                     isCheckmatedB = this.board.isCheckmated(1);
+                    if(this.board.isGameover(1)){
+                        winner = "White";
+                        this.gameover = true;
+                        break;
+                    }
+                    //hint for checkmated
                     if(isCheckmatedB){
-                        if(this.board.isGameover(1)){
-                            winner = "White";
-                            this.gameover = true;
-                            break;
-                        }
                         System.out.println("You're checkmated!");
+                    }
+                    else{
+                        //if the user can have castling
+                        if(this.board.canCastling(1)){
+                            System.out.println("Black's turn, you have the option of castling now, do you wanna castling?");
+                            System.out.println("1. Yes 2. No");
+                            int choice = Integer.valueOf(scanner.nextLine());
+                            if(choice == 1){
+                                System.out.println("Please input the position of the rook in castling: ");
+                                String rook = scanner.nextLine();
+                                castling = this.board.castling(1, rook);
+                            }
+                        }
+                    }
+                    if(castling){
+                        break;
                     }
                     System.out.println("Black's turn, please choose a piece (for example: 1a):");
                     from = scanner.nextLine();
@@ -69,6 +87,9 @@ public class Game {
                     }
                 }
                 while(!this.gameover){
+                    if(castling){
+                        break;
+                    }
                     this.board.printBoard();
                     System.out.println("You have selected "+from);
                     System.out.println("Please choose a position to go (for example: 1a):");
@@ -91,8 +112,12 @@ public class Game {
                 if(this.gameover){
                     break;
                 }
+                if(castling){
+                    break;
+                }
                 if(this.board.canMove(from, to)){
                     if(this.board.movePiece(from, to,1)){
+                        this.board.cancelEnPassant(2);
                         break;
                     }
                     else{
@@ -107,16 +132,32 @@ public class Game {
             while(!this.gameover){
                 String from = "";
                 String to = "";
+                boolean castling = false;
                 while(!this.gameover){
                     this.board.printBoard();
                     isCheckmatedW = this.board.isCheckmated(2);
+                    if(this.board.isGameover(2)){
+                        winner = "Black";
+                        this.gameover = true;
+                        break;
+                    }
                     if(isCheckmatedW){
-                        if(this.board.isGameover(2)){
-                            winner = "Black";
-                            this.gameover = true;
-                            break;
-                        }
                         System.out.println("You're checkmated!");
+                    }
+                    else{
+                        if(this.board.canCastling(2)){
+                            System.out.println("White's turn, you have the option of castling now, do you wanna castling?");
+                            System.out.println("1. Yes 2. No");
+                            int choice = Integer.valueOf(scanner.nextLine());
+                            if(choice == 1){
+                                System.out.println("Please input the position of the rook in castling: ");
+                                String rook = scanner.nextLine();
+                                castling = this.board.castling(2, rook);
+                            }
+                        }
+                    }
+                    if(castling){
+                        break;
                     }
                     System.out.println("White's turn, please choose a piece (for example: 1a):");
                     from = scanner.nextLine();
@@ -140,6 +181,9 @@ public class Game {
                     }
                 }
                 while(!this.gameover){
+                    if(castling){
+                        break;
+                    }
                     this.board.printBoard();
                     System.out.println("You have selected "+from);
                     System.out.println("Please choose a position to go (for example: 1a):");
@@ -164,6 +208,7 @@ public class Game {
                 }
                 if(this.board.canMove(from, to)){
                     if(this.board.movePiece(from, to,1)){
+                        this.board.cancelEnPassant(1);
                         break;
                     }
                     else{
@@ -173,6 +218,7 @@ public class Game {
                 else{
                     System.out.println("Invalid movement: please follow the rule");
                 }
+
             }
         }
         System.out.println("Game over! The winner is "+winner+"!");

@@ -78,4 +78,15 @@ public class Bishop implements Piece{
     public void firstStep(){
         this.firstStep = false;
     }
+
+    public boolean isFirstStep(){
+        return this.firstStep;
+    }
+    public boolean enPassant(){
+        return false;
+    }
+    public void cancelEnPassant(){
+        return;
+    }
+
 }

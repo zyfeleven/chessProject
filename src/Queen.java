@@ -116,4 +116,14 @@ public class Queen implements Piece{
         this.firstStep = false;
     }
 
+    public boolean isFirstStep(){
+        return this.firstStep;
+    }
+
+    public boolean enPassant(){
+        return false;
+    }
+    public void cancelEnPassant(){
+        return;
+    }
 }
