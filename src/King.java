@@ -19,16 +19,16 @@ public class King implements Piece{
         this.firstStep = true;
     }
     //Move rule for King: only move to one tile nearby
-    public boolean canMove(int[] position, Piece[][] board){
+    public boolean canMove(int[] pos, Piece[][] board){
 
-        if(Math.abs(position[0]-this.position[0])>1){
+        if(Math.abs(pos[0]-this.position[0])>1){
             return false;
         }
-        if(board[position[0]][position[1]].getUser() == this.user){
+        if(board[pos[0]][pos[1]].getUser() == this.user){
             //System.out.println("You can't capture piece of yourself!");
             return false;
         }
-        if(Math.abs(position[1]-this.position[1])>1){
+        if(Math.abs(pos[1]-this.position[1])>1){
             return false;
         }
         return true;

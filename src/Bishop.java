@@ -19,42 +19,42 @@ public class Bishop implements Piece{
     }
 
     //Move rule for Bishop: only move diagonally
-    public boolean canMove(int[] position, Piece[][] board){
+    public boolean canMove(int[] pos, Piece[][] board){
         //if the destination is also not in the same diagonal then return false
-        if((Math.abs(position[0]-this.position[0])!=Math.abs(position[1]-this.position[1]))){
+        if((Math.abs(pos[0]-this.position[0])!=Math.abs(pos[1]-this.position[1]))){
             return false;
         }
         //check diagonally
-        if(position[0]>this.position[0]&&position[1]>this.position[1]){
-            for(int i = 1;i<position[0]-this.position[0];i++){
+        if(pos[0]>this.position[0]&&pos[1]>this.position[1]){
+            for(int i = 1;i<pos[0]-this.position[0];i++){
                 if(board[this.position[0]+i][this.position[1]+i].getName()!='-'){
                     return false;
                 }
             }
         }
-        else if(position[0]>this.position[0]&&position[1]<this.position[1]){
-            for(int i = 1;i<position[0]-this.position[0];i++){
+        else if(pos[0]>this.position[0]&&pos[1]<this.position[1]){
+            for(int i = 1;i<pos[0]-this.position[0];i++){
                 if(board[this.position[0]+i][this.position[1]-i].getName()!='-'){
                     return false;
                 }
             }
         }
-        else if(position[0]<this.position[0]&&position[1]<this.position[1]){
-            for(int i = 1;i<position[0]-this.position[0];i++){
+        else if(pos[0]<this.position[0]&&pos[1]<this.position[1]){
+            for(int i = 1;i<pos[0]-this.position[0];i++){
                 if(board[this.position[0]-i][this.position[1]-i].getName()!='-'){
                     return false;
                 }
             }
         }
-        else if(position[0]<this.position[0]&&position[1]>this.position[1]){
-            for(int i = 1;i<position[0]-this.position[0];i++){
+        else if(pos[0]<this.position[0]&&pos[1]>this.position[1]){
+            for(int i = 1;i<pos[0]-this.position[0];i++){
                 if(board[this.position[0]-i][this.position[1]+i].getName()!='-'){
                     return false;
                 }
             }
         }
         //if the destination has friendly piece then return false
-        if(board[position[0]][position[1]].getUser() == this.user){
+        if(board[pos[0]][pos[1]].getUser() == this.user){
             //System.out.println("You can't capture piece of yourself!");
             return false;
         }

@@ -18,24 +18,24 @@ public class Knight implements Piece{
         this.firstStep = true;
     }
     ////Move rule for Knight: move in L-shape pattern
-    public boolean canMove(int[] position, Piece[][] board){
-        if(Math.abs(position[0] - this.position[0])>2){
+    public boolean canMove(int[] pos, Piece[][] board){
+        if(Math.abs(pos[0] - this.position[0])>2){
             return false;
         }
-        if(Math.abs(position[1] - this.position[1])>2){
+        if(Math.abs(pos[1] - this.position[1])>2){
             return false;
         }
-        if(Math.abs(position[0] - this.position[0])<=1&&Math.abs(position[1] - this.position[1])<=1){
+        if(Math.abs(pos[0] - this.position[0])<=1&&Math.abs(pos[1] - this.position[1])<=1){
             return false;
         }
-        if(Math.abs(position[0] - this.position[0])==2&&Math.abs(position[1] - this.position[1])==2){
+        if(Math.abs(pos[0] - this.position[0])==2&&Math.abs(pos[1] - this.position[1])==2){
             return false;
         }
-        if(position[0]==this.position[0]||position[1]==this.position[1]){
+        if(pos[0]==this.position[0]||pos[1]==this.position[1]){
             return false;
         }
         //if the destination has friendly piece then return false
-        if(board[position[0]][position[1]].getUser() == this.user){
+        if(board[pos[0]][pos[1]].getUser() == this.user){
             //System.out.println("You can't capture piece of yourself!");
             return false;
         }

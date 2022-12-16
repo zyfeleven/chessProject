@@ -19,24 +19,24 @@ public class Rook implements Piece{
     }
 
     //Move rule for Rook: only move horizontally or vertically
-    public boolean canMove(int[] position, Piece[][] board){
+    public boolean canMove(int[] pos, Piece[][] board){
         //if the destination is not in the same line then return false
-        if(this.position[0]!=position[0]&&this.position[1]!=position[1]){
+        if(this.position[0]!=pos[0]&&this.position[1]!=pos[1]){
             return false;
         }
         else{
             //check if there is other pieces between this rook and destination
             //if yes then return false
-            if(this.position[0]==position[0]){
-                if(this.position[1]<position[1]){
-                    for(int i = this.position[1]+1;i<position[1];i++){
+            if(this.position[0]==pos[0]){
+                if(this.position[1]<pos[1]){
+                    for(int i = this.position[1]+1;i<pos[1];i++){
                         if(board[i][this.position[0]].getName()!='-'){
                             return false;
                         }
                     }
                 }
                 else{
-                    for(int i = position[1]+1;i<this.position[1];i++){
+                    for(int i = pos[1]+1;i<this.position[1];i++){
                         if(board[i][this.position[0]].getName()!='-'){
                             return false;
                         }
@@ -46,15 +46,15 @@ public class Rook implements Piece{
             else{
                 //check if there is other pieces between this rook and destination
                 //if yes then return false
-                if(this.position[0]<position[0]){
-                    for(int i = this.position[0]+1;i<position[0];i++){
+                if(this.position[0]<pos[0]){
+                    for(int i = this.position[0]+1;i<pos[0];i++){
                         if(board[i][this.position[1]].getName()!='-'){
                             return false;
                         }
                     }
                 }
                 else{
-                    for(int i = position[0]+1;i<this.position[0];i++){
+                    for(int i = pos[0]+1;i<this.position[0];i++){
                         if(board[i][this.position[1]].getName()!='-'){
                             return false;
                         }
@@ -63,7 +63,7 @@ public class Rook implements Piece{
             }
             //todo: judge if castling possible
             //if the destination has friendly piece then return false
-            if(board[position[0]][position[1]].getUser() == this.user){
+            if(board[pos[0]][pos[1]].getUser() == this.user){
                 //System.out.println("You can't capture piece of yourself!");
                 return false;
             }

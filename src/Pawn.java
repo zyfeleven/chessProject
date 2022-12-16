@@ -20,14 +20,14 @@ public class Pawn implements Piece{
         this.firstStep = true;
     }
     ////Move rule for Pawn: only move forward one tile or two tiles(only for the first step)
-    public boolean canMove(int[] position, Piece[][] board){
+    public boolean canMove(int[] pos, Piece[][] board){
         if(this.user=='w'){
-            if(position[1]!=this.position[1]){
-                if(this.position[0] - position[0] == 1 && Math.abs(this.position[1] - position[1]) == 1){
-                    if(board[position[0]][position[1]].getUser()=='b'){
+            if(pos[1]!=this.position[1]){
+                if(this.position[0] - pos[0] == 1 && Math.abs(this.position[1] - pos[1]) == 1){
+                    if(board[pos[0]][pos[1]].getUser()=='b'){
                         return true;
                     }
-                    if(board[position[0]][position[1]].getUser()=='-'&&board[position[0]+1][position[1]].enPassant()){
+                    if(board[pos[0]][pos[1]].getUser()=='-'&&board[pos[0]+1][pos[1]].enPassant()){
                         return true;
                     }
                 }
@@ -35,20 +35,20 @@ public class Pawn implements Piece{
                     return false;
                 }
             }
-            if(this.position[0] - position[0] != 1 && this.position[0] - position[0] != 2){
+            if(this.position[0] - pos[0] != 1 && this.position[0] - pos[0] != 2){
                 return false;
             }
-            if(this.position[0] - position[0] == 2 && !firstStep){
+            if(this.position[0] - pos[0] == 2 && !firstStep){
                 return false;
             }
         }
         else{
-            if(position[1]!=this.position[1]){
-                if(position[0] - this.position[0] == 1 && Math.abs(position[1] - this.position[1]) == 1){
-                    if(board[position[0]][position[1]].getUser()=='w'){
+            if(pos[1]!=this.position[1]){
+                if(pos[0] - this.position[0] == 1 && Math.abs(pos[1] - this.position[1]) == 1){
+                    if(board[pos[0]][pos[1]].getUser()=='w'){
                         return true;
                     }
-                    if(board[position[0]][position[1]].getUser()=='-'&&board[position[0]-1][position[1]].enPassant()){
+                    if(board[pos[0]][pos[1]].getUser()=='-'&&board[pos[0]-1][pos[1]].enPassant()){
                         return true;
                     }
                 }
@@ -56,20 +56,20 @@ public class Pawn implements Piece{
                     return false;
                 }
             }
-            if(position[0] - this.position[0] != 1 && position[0] - this.position[0]!=2){
+            if(pos[0] - this.position[0] != 1 && pos[0] - this.position[0]!=2){
                 return false;
             }
-            if(position[0] - this.position[0] == 2 && !firstStep){
+            if(pos[0] - this.position[0] == 2 && !firstStep){
                 return false;
             }
         }
 
         //if the destination has piece then return false
-        if(board[position[0]][position[1]].getName() != '-'){
+        if(board[pos[0]][pos[1]].getName() != '-'){
             //System.out.println("You can't capture piece of yourself!");
             return false;
         }
-        if(Math.abs(position[0] - this.position[0]) == 2){
+        if(Math.abs(pos[0] - this.position[0]) == 2){
             this.enPassant = true;
         }
         return true;
