@@ -1,7 +1,10 @@
 import cosc3p71.groupProject.board.Board;
+import cosc3p71.groupProject.board.Move;
+import cosc3p71.groupProject.board.Record;
 import cosc3p71.groupProject.interfaces.Piece;
 import cosc3p71.groupProject.pieces.nullPiece;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -615,19 +618,31 @@ public class Game {
     }
 
     public void minimaxAB(Board board, int maxDepth, int user) {
-        int v = maxValue(board, Integer.MIN_VALUE, Integer.MAX_VALUE, maxDepth, 0, user);
-
+        Record record = new Record(new ArrayList<Move>(), Integer.MAX_VALUE);
+        ArrayList<Move> move = maxValue(board, Integer.MIN_VALUE, Integer.MAX_VALUE, maxDepth, 0, user, record).getMove();
+        int i = move.get(0).getFrom()[0];
+        int j = move.get(0).getFrom()[1];
+        int k = move.get(1).getFrom()[0];
+        int l = move.get(1).getFrom()[1];
+        Piece temp = board.getPiece(i, j);
+        board.setPiece(k, l, temp);
+        board.setPiece(i, j, new nullPiece(i, j));
+        return;
     }
 
-    public int maxValue(Board board, int alpha, int beta, int maxDepth, int curDepth, int user) {
+    public Record maxValue(Board board, int alpha, int beta, int maxDepth, int curDepth, int user, Record record) {
+        Record state = record.copy();
         if (curDepth > maxDepth) {
-            return Integer.MAX_VALUE;
+            state.setV(Integer.MAX_VALUE);
+            return state;
         }
         if (board.isGameover(user)) {
-            return Integer.MAX_VALUE;
+            state.setV(Integer.MAX_VALUE);
+            return state;
         }
         if (board.isGameover(3 - user)) {
-            return Integer.MIN_VALUE;
+            state.setV(Integer.MIN_VALUE);
+            return state;
         }
         int v = Integer.MIN_VALUE;
         int Alpha = alpha;
@@ -643,9 +658,13 @@ public class Game {
                                     Piece temp = newBoard.getPiece(i, j);
                                     newBoard.setPiece(k, l, temp);
                                     newBoard.setPiece(i, j, new nullPiece(i, j));
-                                    v = Math.max(v, minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user));
+                                    Move moveTemp = new Move(i,j,k,l);
+                                    Record recordTemp = state.copy();
+                                    recordTemp.addMove(moveTemp);
+                                    v = Math.max(v, minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user,recordTemp).getV());
                                     if (v >= Beta) {
-                                        return v;
+                                        state.setV(v);
+                                        return state;
                                     }
                                     Alpha = Math.max(Alpha, v);
                                 }
@@ -662,9 +681,13 @@ public class Game {
                                     Piece temp = newBoard.getPiece(i, j);
                                     newBoard.setPiece(k, l, temp);
                                     newBoard.setPiece(i, j, new nullPiece(i, j));
-                                    v = Math.max(v, minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user));
+                                    Move moveTemp = new Move(i,j,k,l);
+                                    Record recordTemp = state.copy();
+                                    recordTemp.addMove(moveTemp);
+                                    v = Math.max(v, minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user, recordTemp).getV());
                                     if (v >= Beta) {
-                                        return v;
+                                        state.setV(v);
+                                        return state;
                                     }
                                     Alpha = Math.max(Alpha, v);
                                 }
@@ -674,15 +697,19 @@ public class Game {
                 }
             }
         }
-        return v;
+        state.setV(v);
+        return state;
     }
 
-    public int minValue(Board board, int alpha, int beta, int maxDepth, int curDepth, int user) {
+    public Record minValue(Board board, int alpha, int beta, int maxDepth, int curDepth, int user, Record record) {
+        Record state = record.copy();
         if (curDepth > maxDepth) {
-            return Integer.MIN_VALUE;
+            state.setV(Integer.MIN_VALUE);
+            return state;
         }
         if (board.isGameover(1) || board.isGameover(2)) {
-            return Integer.MIN_VALUE;
+            state.setV(Integer.MIN_VALUE);
+            return state;
         }
         int v = Integer.MAX_VALUE;
         int Alpha = alpha;
@@ -698,9 +725,13 @@ public class Game {
                                     Piece temp = newBoard.getPiece(i, j);
                                     newBoard.setPiece(k, l, temp);
                                     newBoard.setPiece(i, j, new nullPiece(i, j));
-                                    v = Math.min(v, maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user));
+                                    Move moveTemp = new Move(i,j,k,l);
+                                    Record recordTemp = state.copy();
+                                    recordTemp.addMove(moveTemp);
+                                    v = Math.min(v, maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user, recordTemp).getV());
                                     if (v <= Alpha) {
-                                        return v;
+                                        state.setV(v);
+                                        return state;
                                     }
                                     Beta = Math.min(Beta, v);
                                 }
@@ -717,9 +748,13 @@ public class Game {
                                     Piece temp = newBoard.getPiece(i, j);
                                     newBoard.setPiece(k, l, temp);
                                     newBoard.setPiece(i, j, new nullPiece(i, j));
-                                    v = Math.min(v, maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user));
+                                    Move moveTemp = new Move(i,j,k,l);
+                                    Record recordTemp = state.copy();
+                                    recordTemp.addMove(moveTemp);
+                                    v = Math.min(v, maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user, recordTemp).getV());
                                     if (v <= Alpha) {
-                                        return v;
+                                        state.setV(v);
+                                        return state;
                                     }
                                     Beta = Math.min(Beta, v);
                                 }
@@ -729,7 +764,8 @@ public class Game {
                 }
             }
         }
-        return v;
+        state.setV(v);
+        return state;
     }
 
 
