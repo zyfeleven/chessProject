@@ -18,6 +18,10 @@ public class Board {
         return this.board[yposition][xposition];
     }
 
+    public Piece getPiece(int x, int y){
+        return this.board[x][y];
+    }
+
     //default board setting
     public void defaultSetting(){
         //initialize default black pieces
@@ -206,6 +210,11 @@ public class Board {
                 this.board[yposition][xposition] = new Pawn(pos,'w');
             }
         }
+    }
+
+    public void setPiece(int y, int x, Piece piece){
+        this.board[y][x] = piece;
+        piece.setCurPosition(y,x);
     }
 
     //judge if the piece can move
@@ -444,12 +453,16 @@ public class Board {
     //user==2 ----check White
     public boolean isGameover(int user){
         int gameover = 0;// if gameover = 0 in the end then the game is over
+        //check if black have some pieces that can move without being checkmated
         if(user==1){
             for(int i = 0;i<8;i++){
                 for(int j = 0;j<8;j++){
+                    //if it is black piece
                     if(this.board[i][j].getName()!='-'&&this.board[i][j].getUser()=='b'){
+                        //check if there is somewhere the piece can go
                         for(int k = 0;k<8;k++){
                             for(int l = 0;l<8;l++){
+                                //if there is somewhere to go then gameover is 1
                                 if(canMove(i,j,k,l)){
                                     if(movePiece(i,j,k,l)){
                                         gameover = 1;
@@ -471,6 +484,7 @@ public class Board {
                 }
             }
         }
+        //same logic but for white
         else if(user == 2){
             for(int i = 0;i<8;i++){
                 for(int j = 0;j<8;j++){
@@ -505,22 +519,26 @@ public class Board {
     //user == 2: white
     public boolean canCastling(int user){
         if(user == 1){
+            //if the king or the rook is already moved return false
             if(!board[this.kingPosition[0][0]][this.kingPosition[0][1]].isFirstStep()){
                 return false;
             }
             int temp = this.kingPosition[0][1];
             for(int i = 0;i<8;i++){
                 if(board[0][i].getName() == 'R'){
+                    //search for rook which is not moved yet
                     if(!board[0][i].isFirstStep()){
                         continue;
                     }
                     else{
                         if(i == 0){
+                            //if there is a piece between king and rook then return false
                             for(int j = 1;j<4;j++){
                                 if(board[0][j].getName()!='-'){
                                     return false;
                                 }
                             }
+                            //if the king will be checkmated in the movement then return false
                             for(int j = 1;j<3;j++){
                                 this.kingPosition[0][1]--;
                                 if(isCheckmated(1)){
@@ -552,6 +570,8 @@ public class Board {
             }
             return false;
         }
+        //for white:
+        //the logic is the same with black
         else{
             if(!board[this.kingPosition[1][0]][this.kingPosition[1][1]].isFirstStep()){
                 return false;
@@ -604,6 +624,7 @@ public class Board {
     //user == 1: Black
     //user == 2: White
     public boolean castling(int user, String positionR){
+        //convert String to int
         int fyposition = positionR.charAt(0) - '1';
         fyposition = 7 - fyposition;
         int fxposition = positionR.charAt(1) - 'a';
@@ -611,16 +632,20 @@ public class Board {
             System.out.println("Invalid castling.");
             return false;
         }
+        //check if black can castling
         if(user == 1){
             int temp = this.kingPosition[0][1];
+            //if the rook position is 8a
             if(fxposition == 0){
                 boolean canCastling = true;
+                //if there is piece between rook and king then no castling
                 for(int j = 1;j<4;j++){
                     if(board[0][j].getName()!='-'){
                         canCastling = false;
                         break;
                     }
                 }
+                //if the king will be checkmated along the path then no castling
                 for(int j = 1;j<3;j++){
                     this.kingPosition[0][1]--;
                     if(isCheckmated(1)){
@@ -629,6 +654,7 @@ public class Board {
                         break;
                     }
                 }
+                //recover the king position
                 this.kingPosition[0][1] = temp;
                 if(canCastling){
                     this.board[0][2] = new King(new int[]{0,2},'b');
@@ -643,6 +669,7 @@ public class Board {
                     return false;
                 }
             }
+            //if the rook's position is 8h
             else if(fxposition == 7){
                 boolean canCastling = true;
                 for(int j = 5;j<7;j++){
@@ -735,7 +762,9 @@ public class Board {
         }
         return false;
     }
-
+    //user == 1: black
+    //user == 2: white
+    //if the user can en passant but didn't do it at that turn, then make all pawn's enPassant to false
     public void cancelEnPassant(int user){
         for(int i = 0;i<8;i++){
             for(int j = 0;j<8;j++){
@@ -747,5 +776,75 @@ public class Board {
                 }
             }
         }
+    }
+
+    //heuristic:
+    //Pawn: 1 mark
+    //Rook: 6 mark
+    //Queen: 9 mark
+    //Bishop: 3 mark
+    //Knight: 3 mark
+    public int heuristic(int user){
+        int sum = 0;
+        if(user == 1){
+            for(int i = 0;i<8;i++){
+                for(int j = 0;j<8;j++){
+                    if(this.board[i][j].getName()=='P'){
+                        sum+=1;
+                    }
+                    else if(this.board[i][j].getName()=='R'){
+                        sum+=6;
+                    }
+                    else if(this.board[i][j].getName()=='Q'){
+                        sum+=9;
+                    }
+                    else if(this.board[i][j].getName()=='B'){
+                        sum+=3;
+                    }
+                    else if(this.board[i][j].getName()=='N'){
+                        sum+=3;
+                    }
+                }
+            }
+        }
+        else{
+            for(int i = 0;i<8;i++){
+                for(int j = 0;j<8;j++){
+                    if(this.board[i][j].getName()=='p'){
+                        sum+=1;
+                    }
+                    else if(this.board[i][j].getName()=='r'){
+                        sum+=6;
+                    }
+                    else if(this.board[i][j].getName()=='q'){
+                        sum+=9;
+                    }
+                    else if(this.board[i][j].getName()=='b'){
+                        sum+=3;
+                    }
+                    else if(this.board[i][j].getName()=='n'){
+                        sum+=3;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+
+    //return a new board which is as same as this.board
+    public Board copyBoard(){
+        Board copy = new Board();
+        copy.kingPosition[0][0] = this.kingPosition[0][0];
+        copy.kingPosition[0][1] = this.kingPosition[0][1];
+        copy.kingPosition[1][0] = this.kingPosition[1][0];
+        copy.kingPosition[1][1] = this.kingPosition[1][1];
+        for(int i = 0;i<8;i++){
+            for(int j = 0;j<8;j++){
+                //todo: if there is a reference problem then just write logic for copying temp
+                Piece temp = this.getPiece(i,j);
+                copy.setPiece(i,j,temp);
+            }
+        }
+        return copy;
     }
 }
