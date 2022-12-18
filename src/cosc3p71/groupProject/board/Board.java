@@ -807,6 +807,7 @@ public class Board {
     }
 
     //return a new board which is as same as this.board
+    //totally new board, not a pointer,
     public Board copyBoard() {
         Board copy = new Board();
         copy.kingPosition[0][0] = this.kingPosition[0][0];

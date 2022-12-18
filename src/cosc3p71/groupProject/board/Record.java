@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Record {
     private ArrayList<Move> move;
-    private int v;
+    private int v;//heuristic
 
     public Record(ArrayList<Move> move, int v){
         this.v = v;

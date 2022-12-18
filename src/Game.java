@@ -23,7 +23,7 @@ public class Game {
         if (mode == 1) {
             this.pvp();
         } else if (mode == 2) {
-            System.out.println("nothing so far");
+            this.pvAi();
         } else if (mode == 3) {
             this.practice();
         }
@@ -429,6 +429,8 @@ public class Game {
         //AI is the white
         if (choice == 1) {
             while (!this.gameOver) {
+                this.board.printBoard();
+                System.out.println("AI is thinking...");
                 minimaxAB(this.board, depth, 2);
                 //black movement
                 while (!this.gameOver) {
@@ -612,6 +614,8 @@ public class Game {
                         System.out.println("Invalid movement: please follow the rule");
                     }
                 }
+                this.board.printBoard();
+                System.out.println("AI is thinking...");
                 minimaxAB(this.board, depth, 1);
             }
         }
@@ -622,8 +626,8 @@ public class Game {
         ArrayList<Move> move = maxValue(board, Integer.MIN_VALUE, Integer.MAX_VALUE, maxDepth, 0, user, record).getMove();
         int i = move.get(0).getFrom()[0];
         int j = move.get(0).getFrom()[1];
-        int k = move.get(1).getFrom()[0];
-        int l = move.get(1).getFrom()[1];
+        int k = move.get(0).getTo()[0];
+        int l = move.get(0).getTo()[1];
         Piece temp = board.getPiece(i, j);
         board.setPiece(k, l, temp);
         board.setPiece(i, j, new nullPiece(i, j));
