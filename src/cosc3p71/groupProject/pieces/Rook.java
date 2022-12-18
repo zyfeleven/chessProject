@@ -1,10 +1,14 @@
+package cosc3p71.groupProject.pieces;
+
+import cosc3p71.groupProject.interfaces.Piece;
+
 public class Rook implements Piece {
     private int[] position;
     private final char user;
     private final char name;
     private boolean firstStep;
 
-    Rook(int[] position, char user) {
+    public Rook(int[] position, char user) {
         this.position = position;
         this.user = user;
         if (user == 'b') {

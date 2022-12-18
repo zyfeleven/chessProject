@@ -1,12 +1,16 @@
-import java.util.HashMap;
+package cosc3p71.groupProject.board;
+
 import java.util.Scanner;
+
+import cosc3p71.groupProject.interfaces.Piece;
+import cosc3p71.groupProject.pieces.*;
 
 public class Board {
     //chess display and logic
     private Piece[][] board;//board
     private int[][] kingPosition;//record both user's king's current position, [0][] is Black and [1][] is White
 
-    Board() {
+    public Board() {
         this.board = new Piece[8][8];
         this.kingPosition = new int[2][2];
     }

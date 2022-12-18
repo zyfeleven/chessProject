@@ -1,3 +1,7 @@
+import cosc3p71.groupProject.board.Board;
+import cosc3p71.groupProject.interfaces.Piece;
+import cosc3p71.groupProject.pieces.nullPiece;
+
 import java.util.Scanner;
 
 public class Game {
@@ -5,7 +9,7 @@ public class Game {
     private Board board;
     private boolean isCheckmatedB;
     private boolean isCheckmatedW;
-    private boolean gameover;
+    private boolean gameOver;
 
     Game() {
         System.out.println("Welcome to the chess game!");
@@ -27,21 +31,21 @@ public class Game {
         board.defaultSetting();
         this.isCheckmatedB = false;
         this.isCheckmatedW = false;
-        this.gameover = false;
+        this.gameOver = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
-        while (!this.gameover) {
+        while (!this.gameOver) {
             //white movement
-            while (!this.gameover) {
+            while (!this.gameOver) {
                 String from = "";
                 String to = "";
                 boolean castling = false;
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     this.board.printBoard();
                     isCheckmatedW = this.board.isCheckmated(2);
                     if (this.board.isGameover(2)) {
                         winner = "Black";
-                        this.gameover = true;
+                        this.gameOver = true;
                         break;
                     }
                     if (isCheckmatedW) {
@@ -81,7 +85,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     if (castling) {
                         break;
                     }
@@ -103,7 +107,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                if (this.gameover) {
+                if (this.gameOver) {
                     break;
                 }
                 if (this.board.canMove(from, to)) {
@@ -119,16 +123,16 @@ public class Game {
 
             }
             //black movement
-            while (!this.gameover) {
+            while (!this.gameOver) {
                 String from = "";
                 String to = "";
                 boolean castling = false;
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     this.board.printBoard();
                     isCheckmatedB = this.board.isCheckmated(1);
                     if (this.board.isGameover(1)) {
                         winner = "White";
-                        this.gameover = true;
+                        this.gameOver = true;
                         break;
                     }
                     //hint for checkmated
@@ -170,7 +174,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     if (castling) {
                         break;
                     }
@@ -192,7 +196,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                if (this.gameover) {
+                if (this.gameOver) {
                     break;
                 }
                 if (castling) {
@@ -218,21 +222,21 @@ public class Game {
         board.customSetting();
         this.isCheckmatedB = false;
         this.isCheckmatedW = false;
-        this.gameover = false;
+        this.gameOver = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
-        while (!this.gameover) {
+        while (!this.gameOver) {
             //white movement
-            while (!this.gameover) {
+            while (!this.gameOver) {
                 String from = "";
                 String to = "";
                 boolean castling = false;
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     this.board.printBoard();
                     isCheckmatedW = this.board.isCheckmated(2);
                     if (this.board.isGameover(2)) {
                         winner = "Black";
-                        this.gameover = true;
+                        this.gameOver = true;
                         break;
                     }
                     if (isCheckmatedW) {
@@ -272,7 +276,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     if (castling) {
                         break;
                     }
@@ -294,7 +298,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                if (this.gameover) {
+                if (this.gameOver) {
                     break;
                 }
                 if (this.board.canMove(from, to)) {
@@ -309,16 +313,16 @@ public class Game {
                 }
             }
             //black movement
-            while (!this.gameover) {
+            while (!this.gameOver) {
                 String from = "";
                 String to = "";
                 boolean castling = false;
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     this.board.printBoard();
                     isCheckmatedB = this.board.isCheckmated(1);
                     if (this.board.isGameover(1)) {
                         winner = "White";
-                        this.gameover = true;
+                        this.gameOver = true;
                         break;
                     }
                     //hint for checkmated
@@ -360,7 +364,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     if (castling) {
                         break;
                     }
@@ -382,7 +386,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
-                if (this.gameover) {
+                if (this.gameOver) {
                     break;
                 }
                 if (castling) {
@@ -409,7 +413,7 @@ public class Game {
         board.defaultSetting();
         this.isCheckmatedB = false;
         this.isCheckmatedW = false;
-        this.gameover = false;
+        this.gameOver = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
         //set the max depth
@@ -421,19 +425,19 @@ public class Game {
         int choice = Integer.valueOf(scanner.nextLine());
         //AI is the white
         if (choice == 1) {
-            while (!this.gameover) {
+            while (!this.gameOver) {
                 minimaxAB(this.board, depth, 2);
                 //black movement
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     String from = "";
                     String to = "";
                     boolean castling = false;
-                    while (!this.gameover) {
+                    while (!this.gameOver) {
                         this.board.printBoard();
                         isCheckmatedB = this.board.isCheckmated(1);
                         if (this.board.isGameover(1)) {
                             winner = "White";
-                            this.gameover = true;
+                            this.gameOver = true;
                             break;
                         }
                         //hint for checkmated
@@ -475,7 +479,7 @@ public class Game {
                             System.out.println("Invalid command! Please try again!");
                         }
                     }
-                    while (!this.gameover) {
+                    while (!this.gameOver) {
                         if (castling) {
                             break;
                         }
@@ -497,7 +501,7 @@ public class Game {
                             System.out.println("Invalid command! Please try again!");
                         }
                     }
-                    if (this.gameover) {
+                    if (this.gameOver) {
                         break;
                     }
                     if (castling) {
@@ -518,18 +522,18 @@ public class Game {
         }
         //AI is the black
         else {
-            while (!this.gameover) {
+            while (!this.gameOver) {
                 //white movement
-                while (!this.gameover) {
+                while (!this.gameOver) {
                     String from = "";
                     String to = "";
                     boolean castling = false;
-                    while (!this.gameover) {
+                    while (!this.gameOver) {
                         this.board.printBoard();
                         isCheckmatedW = this.board.isCheckmated(2);
                         if (this.board.isGameover(2)) {
                             winner = "Black";
-                            this.gameover = true;
+                            this.gameOver = true;
                             break;
                         }
                         if (isCheckmatedW) {
@@ -569,7 +573,7 @@ public class Game {
                             System.out.println("Invalid command! Please try again!");
                         }
                     }
-                    while (!this.gameover) {
+                    while (!this.gameOver) {
                         if (castling) {
                             break;
                         }
@@ -591,7 +595,7 @@ public class Game {
                             System.out.println("Invalid command! Please try again!");
                         }
                     }
-                    if (this.gameover) {
+                    if (this.gameOver) {
                         break;
                     }
                     if (this.board.canMove(from, to)) {

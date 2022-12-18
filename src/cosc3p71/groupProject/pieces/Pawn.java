@@ -1,3 +1,7 @@
+package cosc3p71.groupProject.pieces;
+
+import cosc3p71.groupProject.interfaces.Piece;
+
 public class Pawn implements Piece {
     private int[] position;
     private final char user;
@@ -5,7 +9,7 @@ public class Pawn implements Piece {
     private boolean firstStep;
     private boolean enPassant;
 
-    Pawn(int[] position, char user) {
+    public Pawn(int[] position, char user) {
         this.position = position;
         this.user = user;
         this.enPassant = false;

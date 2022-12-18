@@ -1,3 +1,7 @@
+package cosc3p71.groupProject.pieces;
+
+import cosc3p71.groupProject.interfaces.Piece;
+
 public class King implements Piece {
     private int[] position;
     private final char user;// 'b' is Black and 'w' is white
@@ -5,7 +9,7 @@ public class King implements Piece {
     private final char name;
     public boolean firstStep;
 
-    King(int[] position, char user) {
+    public King(int[] position, char user) {
         this.position = position;
         this.user = user;
         if (user == 'b') {

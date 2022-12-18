@@ -1,10 +1,14 @@
+package cosc3p71.groupProject.pieces;
+
+import cosc3p71.groupProject.interfaces.Piece;
+
 public class nullPiece implements Piece {
     private int[] position;
     private final char name;
     private final char user;
     private boolean firstStep;
 
-    nullPiece(int x, int y) {
+    public nullPiece(int x, int y) {
         this.position = new int[]{x, y};
         this.name = '-';
         this.user = ' ';
