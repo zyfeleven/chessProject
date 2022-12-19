@@ -49,7 +49,7 @@ public class nullPiece implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = this;
-        return returnPiece;
+        //TODO: Check this
+        return this;
     }
 }

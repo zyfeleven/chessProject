@@ -71,7 +71,7 @@ public class Knight implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = this;
+        Piece returnPiece = new Knight(this.position, this.user);
         return returnPiece;
     }
 }

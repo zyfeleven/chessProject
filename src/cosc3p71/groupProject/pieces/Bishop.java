@@ -62,6 +62,7 @@ public class Bishop implements Piece {
     }
 
 
+
     public char getName() {
         return this.name;
     }
@@ -87,7 +88,7 @@ public class Bishop implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = this;
+        Piece returnPiece = new Bishop(this.position, this.user);
         return returnPiece;
     }
 

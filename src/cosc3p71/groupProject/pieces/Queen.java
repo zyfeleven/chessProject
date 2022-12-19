@@ -120,7 +120,7 @@ public class Queen implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = this;
+        Piece returnPiece = new Queen(this.position, this.user);
         return returnPiece;
     }
 }

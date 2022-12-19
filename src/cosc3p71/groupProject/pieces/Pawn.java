@@ -109,7 +109,7 @@ public class Pawn implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = this;
+        Piece returnPiece = new Pawn(this.position, this.user);
         return returnPiece;
     }
 }

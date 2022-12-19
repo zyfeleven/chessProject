@@ -63,7 +63,7 @@ public class King implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = this;
+        Piece returnPiece = new King(this.position, this.user);
         return returnPiece;
     }
 

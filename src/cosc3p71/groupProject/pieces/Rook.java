@@ -95,7 +95,7 @@ public class Rook implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = this;
+        Piece returnPiece = new Rook(this.position, this.user);
         return returnPiece;
     }
 }
