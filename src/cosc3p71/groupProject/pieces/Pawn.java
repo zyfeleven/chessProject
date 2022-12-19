@@ -31,8 +31,7 @@ public class Pawn implements Piece {
                     }
                     if (board[pos[0]][pos[1]].getUser() == '-' && board[pos[0] + 1][pos[1]].enPassant()) {
                         return true;
-                    }
-                    else{
+                    } else {
                         return false;
                     }
                 } else {
@@ -53,8 +52,7 @@ public class Pawn implements Piece {
                     }
                     if (board[pos[0]][pos[1]].getUser() == '-' && board[pos[0] - 1][pos[1]].enPassant()) {
                         return true;
-                    }
-                    else{
+                    } else {
                         return false;
                     }
                 } else {
@@ -107,5 +105,11 @@ public class Pawn implements Piece {
 
     public void cancelEnPassant() {
         this.enPassant = false;
+    }
+
+    @Override
+    public Piece copyPiece() {
+        Piece returnPiece = this;
+        return returnPiece;
     }
 }

@@ -61,6 +61,7 @@ public class Bishop implements Piece {
         this.position[1] = j;
     }
 
+
     public char getName() {
         return this.name;
     }
@@ -82,6 +83,12 @@ public class Bishop implements Piece {
     }
 
     public void cancelEnPassant() {
+    }
+
+    @Override
+    public Piece copyPiece() {
+        Piece returnPiece = this;
+        return returnPiece;
     }
 
 }

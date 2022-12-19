@@ -61,4 +61,10 @@ public class King implements Piece {
     public void cancelEnPassant() {
     }
 
+    @Override
+    public Piece copyPiece() {
+        Piece returnPiece = this;
+        return returnPiece;
+    }
+
 }

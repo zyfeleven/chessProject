@@ -828,7 +828,7 @@ public class Board {
                 //temp.getName()-- type R is black r is white
                 //Piece ret = new Rook(new int[]{x,x}, user)
                 //copy.setPiece(i,j,ret)
-                copy.setPiece(i, j, temp);
+                copy.setPiece(i, j, temp.copyPiece());
             }
         }
         return copy;

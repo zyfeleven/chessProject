@@ -16,4 +16,6 @@ public interface Piece {
     public boolean enPassant();
 
     public void cancelEnPassant();
+
+    public Piece copyPiece();
 }
