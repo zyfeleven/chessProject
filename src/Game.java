@@ -623,14 +623,18 @@ public class Game {
 
     public void minimaxAB(Board board, int maxDepth, int user) {
         Record record = new Record(new ArrayList<Move>(), Integer.MAX_VALUE);
-        ArrayList<Move> move = maxValue(board, Integer.MIN_VALUE, Integer.MAX_VALUE, maxDepth, 0, user, record).getMove();
+        record = maxValue(board, Integer.MIN_VALUE, Integer.MAX_VALUE, maxDepth, 0, user, record);
+        ArrayList<Move> move = record.getMove();
         int i = move.get(0).getFrom()[0];
         int j = move.get(0).getFrom()[1];
         int k = move.get(0).getTo()[0];
         int l = move.get(0).getTo()[1];
         Piece temp = board.getPiece(i, j);
+        temp.firstStep();
+        temp.setCurPosition(k,l);
         board.setPiece(k, l, temp);
         board.setPiece(i, j, new nullPiece(i, j));
+        this.board.cancelEnPassant(user);
         return;
     }
 
@@ -649,6 +653,7 @@ public class Game {
             return state;
         }
         int v = this.board.heuristic(user);
+        state.setV(v);
         int Alpha = alpha;
         int Beta = beta;
         for (int i = 0; i < 8; i++) {
@@ -665,18 +670,20 @@ public class Game {
                                     Move moveTemp = new Move(i,j,k,l);
                                     Record recordTemp = state.copy();
                                     recordTemp.addMove(moveTemp);
-                                    v = Math.max(v, minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user,recordTemp).getV());
-                                    if (v >= Beta) {
-                                        state.setV(v);
+                                    Record minValueRet = minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, user,recordTemp);
+                                    if(minValueRet.getV() >= state.getV()){
+                                        state = minValueRet;
+                                    }
+                                    if (state.getV() >= Beta) {
                                         return state;
                                     }
-                                    Alpha = Math.max(Alpha, v);
+                                    Alpha = Math.max(Alpha, state.getV());
                                 }
                             }
                         }
                     }
                 }
-                if (board.getPiece(i, j).getUser() == 'w' && user == 2) {
+                else if (board.getPiece(i, j).getUser() == 'w' && user == 2) {
                     for (int k = 0; k < 8; k++) {
                         for (int l = 0; l < 8; l++) {
                             if (board.canMove(i, j, k, l)) {
@@ -688,12 +695,14 @@ public class Game {
                                     Move moveTemp = new Move(i,j,k,l);
                                     Record recordTemp = state.copy();
                                     recordTemp.addMove(moveTemp);
-                                    v = Math.max(v, minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user, recordTemp).getV());
-                                    if (v >= Beta) {
-                                        state.setV(v);
+                                    Record minValueRet = minValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, user,recordTemp);
+                                    if(minValueRet.getV() >= state.getV()){
+                                        state = minValueRet;
+                                    }
+                                    if (state.getV() >= Beta) {
                                         return state;
                                     }
-                                    Alpha = Math.max(Alpha, v);
+                                    Alpha = Math.max(Alpha, state.getV());
                                 }
                             }
                         }
@@ -701,7 +710,6 @@ public class Game {
                 }
             }
         }
-        state.setV(v);
         return state;
     }
 
@@ -720,6 +728,7 @@ public class Game {
             return state;
         }
         int v = this.board.heuristic(user);
+        state.setV(v);
         int Alpha = alpha;
         int Beta = beta;
         for (int i = 0; i < 8; i++) {
@@ -736,12 +745,14 @@ public class Game {
                                     Move moveTemp = new Move(i,j,k,l);
                                     Record recordTemp = state.copy();
                                     recordTemp.addMove(moveTemp);
-                                    v = Math.min(v, maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user, recordTemp).getV());
-                                    if (v <= Alpha) {
-                                        state.setV(v);
+                                    Record maxValueRet = maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, user,recordTemp);
+                                    if(maxValueRet.getV() <= state.getV()){
+                                        state = maxValueRet;
+                                    }
+                                    if (state.getV() <= Alpha) {
                                         return state;
                                     }
-                                    Beta = Math.min(Beta, v);
+                                    Beta = Math.min(Beta, state.getV());
                                 }
                             }
                         }
@@ -759,12 +770,14 @@ public class Game {
                                     Move moveTemp = new Move(i,j,k,l);
                                     Record recordTemp = state.copy();
                                     recordTemp.addMove(moveTemp);
-                                    v = Math.min(v, maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, 3 - user, recordTemp).getV());
-                                    if (v <= Alpha) {
-                                        state.setV(v);
+                                    Record maxValueRet = maxValue(newBoard, Alpha, Beta, maxDepth, curDepth + 1, user,recordTemp);
+                                    if(maxValueRet.getV() <= state.getV()){
+                                        state = maxValueRet;
+                                    }
+                                    if (state.getV() <= Alpha) {
                                         return state;
                                     }
-                                    Beta = Math.min(Beta, v);
+                                    Beta = Math.min(Beta, state.getV());
                                 }
                             }
                         }
@@ -772,7 +785,6 @@ public class Game {
                 }
             }
         }
-        state.setV(v);
         return state;
     }
 

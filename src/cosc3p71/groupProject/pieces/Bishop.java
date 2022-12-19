@@ -39,13 +39,13 @@ public class Bishop implements Piece {
                 }
             }
         } else if (pos[0] < this.position[0] && pos[1] < this.position[1]) {
-            for (int i = 1; i < pos[0] - this.position[0]; i++) {
+            for (int i = 1; i < this.position[0] - pos[0]; i++) {
                 if (board[this.position[0] - i][this.position[1] - i].getName() != '-') {
                     return false;
                 }
             }
         } else if (pos[0] < this.position[0] && pos[1] > this.position[1]) {
-            for (int i = 1; i < pos[0] - this.position[0]; i++) {
+            for (int i = 1; i < this.position[0] - pos[0]; i++) {
                 if (board[this.position[0] - i][this.position[1] + i].getName() != '-') {
                     return false;
                 }
