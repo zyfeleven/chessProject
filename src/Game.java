@@ -648,7 +648,7 @@ public class Game {
             state.setV(Integer.MIN_VALUE);
             return state;
         }
-        int v = Integer.MIN_VALUE;
+        int v = this.board.heuristic(user);
         int Alpha = alpha;
         int Beta = beta;
         for (int i = 0; i < 8; i++) {
@@ -711,11 +711,15 @@ public class Game {
             state.setV(Integer.MIN_VALUE);
             return state;
         }
-        if (board.isGameover(1) || board.isGameover(2)) {
+        if (board.isGameover(user)) {
             state.setV(Integer.MIN_VALUE);
             return state;
         }
-        int v = Integer.MAX_VALUE;
+        if (board.isGameover(3 - user)) {
+            state.setV(Integer.MAX_VALUE);
+            return state;
+        }
+        int v = this.board.heuristic(user);
         int Alpha = alpha;
         int Beta = beta;
         for (int i = 0; i < 8; i++) {

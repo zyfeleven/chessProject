@@ -32,6 +32,9 @@ public class Pawn implements Piece {
                     if (board[pos[0]][pos[1]].getUser() == '-' && board[pos[0] + 1][pos[1]].enPassant()) {
                         return true;
                     }
+                    else{
+                        return false;
+                    }
                 } else {
                     return false;
                 }
@@ -50,6 +53,9 @@ public class Pawn implements Piece {
                     }
                     if (board[pos[0]][pos[1]].getUser() == '-' && board[pos[0] - 1][pos[1]].enPassant()) {
                         return true;
+                    }
+                    else{
+                        return false;
                     }
                 } else {
                     return false;
