@@ -420,7 +420,9 @@ public class Board {
                 for (int j = 0; j < 8; j++) {
                     if (this.board[i][j].getName() != '-' && this.board[i][j].getUser() == 'w') {
                         if (canMove(i, j, this.kingPosition[0][0], this.kingPosition[0][1])) {
-                            return true;
+                            if(movePiece(i,j,this.kingPosition[0][0], this.kingPosition[0][1])){
+                                return true;
+                            }
                         }
                     }
                 }
@@ -430,7 +432,9 @@ public class Board {
                 for (int j = 0; j < 8; j++) {
                     if (this.board[i][j].getName() != '-' && this.board[i][j].getUser() == 'b') {
                         if (canMove(i, j, this.kingPosition[1][0], this.kingPosition[1][1])) {
-                            return true;
+                            if(movePiece(i,j,this.kingPosition[1][0], this.kingPosition[1][1])){
+                                return true;
+                            }
                         }
                     }
                 }
@@ -818,6 +822,12 @@ public class Board {
             for (int j = 0; j < 8; j++) {
                 //todo: if there is a reference problem then just write logic for copying temp
                 Piece temp = this.getPiece(i, j);
+                //todo:
+                //write logic to judge the type of temp: P,R,B,N,K,Q
+                //get three information: position:i, j type: P,R,B,N,K,Q user:which user()
+                //temp.getName()-- type R is black r is white
+                //Piece ret = new Rook(new int[]{x,x}, user)
+                //copy.setPiece(i,j,ret)
                 copy.setPiece(i, j, temp);
             }
         }
