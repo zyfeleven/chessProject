@@ -2,6 +2,7 @@ import cosc3p71.groupProject.board.Board;
 import cosc3p71.groupProject.board.Move;
 import cosc3p71.groupProject.board.Record;
 import cosc3p71.groupProject.interfaces.Piece;
+import cosc3p71.groupProject.pieces.Queen;
 import cosc3p71.groupProject.pieces.nullPiece;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Game {
     Game() {
         System.out.println("Welcome to the chess game!");
         System.out.println("Please choose mode: ");
-        System.out.println("1. User vs User  2. User vs AI  3. Practice mode");
+        System.out.println("1. User vs User  2. User vs AI  3. Practice mode 4. AI vs AI (just for fun)");
         Scanner scanner = new Scanner(System.in);
         int mode = Integer.parseInt(scanner.nextLine());
         if (mode == 1) {
@@ -26,6 +27,9 @@ public class Game {
             this.pvAi();
         } else if (mode == 3) {
             this.practice();
+        }
+        else if(mode == 4){
+            this.AIvAI();
         }
     }
 
@@ -429,6 +433,11 @@ public class Game {
         //AI is the white
         if (choice == 1) {
             while (!this.gameOver) {
+                this.board.isGameover(2);
+                if(this.gameOver){
+                    winner = "Black";
+                    break;
+                }
                 this.board.printBoard();
                 System.out.println("AI is thinking...");
                 minimaxAB(this.board, depth, 2);
@@ -524,6 +533,7 @@ public class Game {
                     }
                 }
             }
+            System.out.println("GAME OVER! Winner is "+winner);
         }
         //AI is the black
         else {
@@ -614,11 +624,53 @@ public class Game {
                         System.out.println("Invalid movement: please follow the rule");
                     }
                 }
+                this.board.isGameover(1);
+                if(this.gameOver){
+                    winner = "White";
+                    break;
+                }
                 this.board.printBoard();
                 System.out.println("AI is thinking...");
                 minimaxAB(this.board, depth, 1);
             }
+            System.out.println("GAME OVER! The winner is "+winner);
         }
+    }
+
+    public void AIvAI(){
+        this.board = new Board();
+        board.defaultSetting();
+        this.isCheckmatedB = false;
+        this.isCheckmatedW = false;
+        this.gameOver = false;
+        String winner = "";
+        Scanner scanner = new Scanner(System.in);
+        //set the max depth
+        System.out.println("Please set the depth of search for Black:");
+        int depthB = Integer.valueOf(scanner.nextLine());
+        //choose the side
+        System.out.println("Please set the depth of search for White:");
+        int depthW = Integer.valueOf(scanner.nextLine());
+        while(!this.gameOver){
+            this.board.isGameover(1);
+            if(this.gameOver){
+                winner = "White";
+                break;
+            }
+            this.board.printBoard();
+            System.out.println("AI is thinking...");
+            minimaxAB(this.board, depthW, 1);
+
+            this.board.isGameover(2);
+            if(this.gameOver){
+                winner = "Black";
+                break;
+            }
+            this.board.printBoard();
+            System.out.println("AI is thinking...");
+            minimaxAB(this.board, depthB, 2);
+        }
+        System.out.println("GAME OVER! The winner is "+winner);
     }
 
     public void minimaxAB(Board board, int maxDepth, int user) {
@@ -632,9 +684,15 @@ public class Game {
         Piece temp = board.getPiece(i, j);
         temp.firstStep();
         temp.setCurPosition(k,l);
+        if(temp.getName()=='p' && k == 0){
+            temp = new Queen(new int[]{k,l}, 'w');
+        }
+        if(temp.getName()=='P' && k == 7){
+            temp = new Queen(new int[]{k,l}, 'b');
+        }
         board.setPiece(k, l, temp);
         board.setPiece(i, j, new nullPiece(i, j));
-        this.board.cancelEnPassant(user);
+        this.board.cancelEnPassant(3-user);
         return;
     }
 
