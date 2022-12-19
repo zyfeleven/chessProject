@@ -11,8 +11,8 @@ import java.util.Scanner;
 public class Game {
     // game control process : start, choose user(PVP OR PV AI), judge if the game is over, restart...
     private Board board;
-    private boolean isCheckmatedB;
-    private boolean isCheckmatedW;
+    private boolean isCheckedB;
+    private boolean isCheckedW;
     private boolean gameOver;
 
     Game() {
@@ -36,8 +36,8 @@ public class Game {
     public void pvp() {
         this.board = new Board();
         board.defaultSetting();
-        this.isCheckmatedB = false;
-        this.isCheckmatedW = false;
+        this.isCheckedB = false;
+        this.isCheckedW = false;
         this.gameOver = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
@@ -47,17 +47,21 @@ public class Game {
                 String from = "";
                 String to = "";
                 boolean castling = false;
+                //ask user to choose a piece
                 while (!this.gameOver) {
                     this.board.printBoard();
-                    isCheckmatedW = this.board.isCheckmated(2);
+                    isCheckedW = this.board.isChecked(2);
+                    //if game is over then break
                     if (this.board.isGameover(2)) {
                         winner = "Black";
                         this.gameOver = true;
                         break;
                     }
-                    if (isCheckmatedW) {
-                        System.out.println("You're checkmated!");
+                    //give the hint for check
+                    if (isCheckedW) {
+                        System.out.println("You're checked!");
                     } else {
+                        // if the user can castling then provide the option for castling
                         if (this.board.canCastling(2)) {
                             System.out.println("White's turn, you have the option of castling now, do you wanna castling?");
                             System.out.println("1. Yes 2. No");
@@ -92,6 +96,7 @@ public class Game {
                         System.out.println("Invalid command! Please try again!");
                     }
                 }
+                //ask the user which position to go
                 while (!this.gameOver) {
                     if (castling) {
                         break;
@@ -117,6 +122,7 @@ public class Game {
                 if (this.gameOver) {
                     break;
                 }
+                //move the piece and cancel the en passant(if the user didn't do it then there is no en passant anymore)
                 if (this.board.canMove(from, to)) {
                     if (this.board.movePiece(from, to, 1)) {
                         this.board.cancelEnPassant(1);
@@ -130,21 +136,22 @@ public class Game {
 
             }
             //black movement
+            //most logics are the same but in a different side(different color)
             while (!this.gameOver) {
                 String from = "";
                 String to = "";
                 boolean castling = false;
                 while (!this.gameOver) {
                     this.board.printBoard();
-                    isCheckmatedB = this.board.isCheckmated(1);
+                    isCheckedB = this.board.isChecked(1);
                     if (this.board.isGameover(1)) {
                         winner = "White";
                         this.gameOver = true;
                         break;
                     }
                     //hint for checkmated
-                    if (isCheckmatedB) {
-                        System.out.println("You're checkmated!");
+                    if (isCheckedB) {
+                        System.out.println("You're checked!");
                     } else {
                         //if the user can have castling
                         if (this.board.canCastling(1)) {
@@ -227,8 +234,8 @@ public class Game {
     public void practice() {
         this.board = new Board();
         board.customSetting();
-        this.isCheckmatedB = false;
-        this.isCheckmatedW = false;
+        this.isCheckedB = false;
+        this.isCheckedW = false;
         this.gameOver = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
@@ -240,14 +247,14 @@ public class Game {
                 boolean castling = false;
                 while (!this.gameOver) {
                     this.board.printBoard();
-                    isCheckmatedW = this.board.isCheckmated(2);
+                    isCheckedW = this.board.isChecked(2);
                     if (this.board.isGameover(2)) {
                         winner = "Black";
                         this.gameOver = true;
                         break;
                     }
-                    if (isCheckmatedW) {
-                        System.out.println("You're checkmated!");
+                    if (isCheckedW) {
+                        System.out.println("You're checked!");
                     } else {
                         if (this.board.canCastling(2)) {
                             System.out.println("White's turn, you have the option of castling now, do you wanna castling?");
@@ -326,15 +333,15 @@ public class Game {
                 boolean castling = false;
                 while (!this.gameOver) {
                     this.board.printBoard();
-                    isCheckmatedB = this.board.isCheckmated(1);
+                    isCheckedB = this.board.isChecked(1);
                     if (this.board.isGameover(1)) {
                         winner = "White";
                         this.gameOver = true;
                         break;
                     }
                     //hint for checkmated
-                    if (isCheckmatedB) {
-                        System.out.println("You're checkmated!");
+                    if (isCheckedB) {
+                        System.out.println("You're checked!");
                     } else {
                         //if the user can have castling
                         if (this.board.canCastling(1)) {
@@ -418,8 +425,8 @@ public class Game {
     public void pvAi() {
         this.board = new Board();
         board.defaultSetting();
-        this.isCheckmatedB = false;
-        this.isCheckmatedW = false;
+        this.isCheckedB = false;
+        this.isCheckedW = false;
         this.gameOver = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
@@ -433,6 +440,7 @@ public class Game {
         //AI is the white
         if (choice == 1) {
             while (!this.gameOver) {
+                //AI movement
                 this.board.isGameover(2);
                 if(this.gameOver){
                     winner = "Black";
@@ -448,15 +456,15 @@ public class Game {
                     boolean castling = false;
                     while (!this.gameOver) {
                         this.board.printBoard();
-                        isCheckmatedB = this.board.isCheckmated(1);
+                        isCheckedB = this.board.isChecked(1);
                         if (this.board.isGameover(1)) {
                             winner = "White";
                             this.gameOver = true;
                             break;
                         }
                         //hint for checkmated
-                        if (isCheckmatedB) {
-                            System.out.println("You're checkmated!");
+                        if (isCheckedB) {
+                            System.out.println("You're checked!");
                         } else {
                             //if the user can have castling
                             if (this.board.canCastling(1)) {
@@ -545,14 +553,14 @@ public class Game {
                     boolean castling = false;
                     while (!this.gameOver) {
                         this.board.printBoard();
-                        isCheckmatedW = this.board.isCheckmated(2);
+                        isCheckedW = this.board.isChecked(2);
                         if (this.board.isGameover(2)) {
                             winner = "Black";
                             this.gameOver = true;
                             break;
                         }
-                        if (isCheckmatedW) {
-                            System.out.println("You're checkmated!");
+                        if (isCheckedW) {
+                            System.out.println("You're checked!");
                         } else {
                             if (this.board.canCastling(2)) {
                                 System.out.println("White's turn, you have the option of castling now, do you wanna castling?");
@@ -640,8 +648,8 @@ public class Game {
     public void AIvAI(){
         this.board = new Board();
         board.defaultSetting();
-        this.isCheckmatedB = false;
-        this.isCheckmatedW = false;
+        this.isCheckedB = false;
+        this.isCheckedW = false;
         this.gameOver = false;
         String winner = "";
         Scanner scanner = new Scanner(System.in);
@@ -672,18 +680,23 @@ public class Game {
         }
         System.out.println("GAME OVER! The winner is "+winner);
     }
-
+    //minimax with Alpha-Beta pruning
     public void minimaxAB(Board board, int maxDepth, int user) {
+        //use record to store the movement order
         Record record = new Record(new ArrayList<Move>(), Integer.MAX_VALUE);
         record = maxValue(board, Integer.MIN_VALUE, Integer.MAX_VALUE, maxDepth, 0, user, record);
         ArrayList<Move> move = record.getMove();
+        //get the first step
         int i = move.get(0).getFrom()[0];
         int j = move.get(0).getFrom()[1];
         int k = move.get(0).getTo()[0];
         int l = move.get(0).getTo()[1];
+        //make the movement
         Piece temp = board.getPiece(i, j);
         temp.firstStep();
         temp.setCurPosition(k,l);
+        //promotion
+        //since in the heuristic Queen always has the highest mark, so all promotions for AI is to become a Queen
         if(temp.getName()=='p' && k == 0){
             temp = new Queen(new int[]{k,l}, 'w');
         }
@@ -692,35 +705,45 @@ public class Game {
         }
         board.setPiece(k, l, temp);
         board.setPiece(i, j, new nullPiece(i, j));
+        //after the move en passant is not available anymore
         this.board.cancelEnPassant(3-user);
         return;
     }
 
     public Record maxValue(Board board, int alpha, int beta, int maxDepth, int curDepth, int user, Record record) {
+        //copy the record
         Record state = record.copy();
+        //if current depth is more than the max depth then return
         if (curDepth > maxDepth) {
             state.setV(Integer.MAX_VALUE);
             return state;
         }
+        //if the game is over
         if (board.isGameover(user)) {
             state.setV(Integer.MAX_VALUE);
             return state;
         }
+        //if the game is over
         if (board.isGameover(3 - user)) {
             state.setV(Integer.MIN_VALUE);
             return state;
         }
+        //calculate current heuristic
         int v = this.board.heuristic(user);
         state.setV(v);
+        //set up alpha and beta
         int Alpha = alpha;
         int Beta = beta;
+        //for all pieces on the board, find the AI's pieces and then find all possible movement
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (board.getPiece(i, j).getUser() == 'b' && user == 1) {
                     for (int k = 0; k < 8; k++) {
                         for (int l = 0; l < 8; l++) {
+                            //if there is a legal move
                             if (board.canMove(i, j, k, l)) {
                                 if (board.movePiece(i, j, k, l)) {
+                                    //copy the board and do the movement, then continue the minimax
                                     Board newBoard = board.copyBoard();
                                     Piece temp = newBoard.getPiece(i, j);
                                     newBoard.setPiece(k, l, temp);
@@ -732,6 +755,7 @@ public class Game {
                                     if(minValueRet.getV() >= state.getV()){
                                         state = minValueRet;
                                     }
+                                    //pruning
                                     if (state.getV() >= Beta) {
                                         return state;
                                     }
@@ -741,6 +765,7 @@ public class Game {
                         }
                     }
                 }
+                //same logic as above but the user is different
                 else if (board.getPiece(i, j).getUser() == 'w' && user == 2) {
                     for (int k = 0; k < 8; k++) {
                         for (int l = 0; l < 8; l++) {
@@ -771,6 +796,7 @@ public class Game {
         return state;
     }
 
+    //almost the same logic as maxValue()
     public Record minValue(Board board, int alpha, int beta, int maxDepth, int curDepth, int user, Record record) {
         Record state = record.copy();
         if (curDepth > maxDepth) {

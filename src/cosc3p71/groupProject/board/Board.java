@@ -306,7 +306,7 @@ public class Board {
 
         //if the user is checkmated after the movement then recover the movement
         if (user == 'b') {
-            if (isCheckmated(1)) {
+            if (isChecked(1)) {
                 if (hint == 1) {
                     System.out.println("Invalid movement: You are checkmated after this movement");
                 }
@@ -319,7 +319,7 @@ public class Board {
                 return false;
             }
         } else if (user == 'w') {
-            if (isCheckmated(2)) {
+            if (isChecked(2)) {
                 if (hint == 1) {
                     System.out.println("Invalid movement: You are checkmated after this movement");
                 }
@@ -386,7 +386,7 @@ public class Board {
         }
         //if the user is checkmated after the movement then recover the movement
         if (user == 'b') {
-            if (this.isCheckmated(1)) {
+            if (this.isChecked(1)) {
                 this.board[fy][fx] = this.board[ty][tx];
                 this.board[ty][tx] = temp;
                 if (this.board[fy][fx].getName() == 'K') {
@@ -396,7 +396,7 @@ public class Board {
                 return false;
             }
         } else if (user == 'w') {
-            if (this.isCheckmated(2)) {
+            if (this.isChecked(2)) {
                 this.board[fy][fx] = this.board[ty][tx];
                 this.board[ty][tx] = temp;
                 if (this.board[fy][fx].getName() == 'k') {
@@ -414,7 +414,7 @@ public class Board {
     //check if one user's king is checkmated
     //user==1 ----check Black
     //user==2 ----check White
-    public boolean isCheckmated(int user) {
+    public boolean isChecked(int user) {
         if (user == 1) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -535,7 +535,7 @@ public class Board {
                             //if the king will be checkmated in the movement then return false
                             for (int j = 1; j < 3; j++) {
                                 this.kingPosition[0][1]--;
-                                if (isCheckmated(1)) {
+                                if (isChecked(1)) {
                                     this.kingPosition[0][1] = temp;
                                     return false;
                                 }
@@ -550,7 +550,7 @@ public class Board {
                             }
                             for (int j = 1; j < 3; j++) {
                                 this.kingPosition[0][1]++;
-                                if (isCheckmated(1)) {
+                                if (isChecked(1)) {
                                     this.kingPosition[0][1] = temp;
                                     return false;
                                 }
@@ -583,7 +583,7 @@ public class Board {
                             }
                             for (int j = 1; j < 3; j++) {
                                 this.kingPosition[1][1]--;
-                                if (isCheckmated(2)) {
+                                if (isChecked(2)) {
                                     this.kingPosition[1][1] = temp;
                                     return false;
                                 }
@@ -598,7 +598,7 @@ public class Board {
                             }
                             for (int j = 1; j < 3; j++) {
                                 this.kingPosition[1][1]++;
-                                if (isCheckmated(2)) {
+                                if (isChecked(2)) {
                                     this.kingPosition[1][1] = temp;
                                     return false;
                                 }
@@ -640,7 +640,7 @@ public class Board {
                 //if the king will be checkmated along the path then no castling
                 for (int j = 1; j < 3; j++) {
                     this.kingPosition[0][1]--;
-                    if (isCheckmated(1)) {
+                    if (isChecked(1)) {
                         this.kingPosition[0][1] = temp;
                         canCastling = false;
                         break;
@@ -671,7 +671,7 @@ public class Board {
                 }
                 for (int j = 1; j < 3; j++) {
                     this.kingPosition[0][1]++;
-                    if (isCheckmated(1)) {
+                    if (isChecked(1)) {
                         this.kingPosition[0][1] = temp;
                         canCastling = false;
                         break;
@@ -702,7 +702,7 @@ public class Board {
                 }
                 for (int j = 1; j < 3; j++) {
                     this.kingPosition[1][1]--;
-                    if (isCheckmated(1)) {
+                    if (isChecked(1)) {
                         this.kingPosition[1][1] = temp;
                         canCastling = false;
                         break;
@@ -729,7 +729,7 @@ public class Board {
                 }
                 for (int j = 1; j < 3; j++) {
                     this.kingPosition[1][1]++;
-                    if (isCheckmated(2)) {
+                    if (isChecked(2)) {
                         this.kingPosition[1][1] = temp;
                         canCastling = false;
                         break;

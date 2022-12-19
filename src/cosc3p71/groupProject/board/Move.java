@@ -1,6 +1,7 @@
 package cosc3p71.groupProject.board;
 
 public class Move {
+    //this class is for storing movement information in order to keep tracking in minimax
     private int[] from;
     private int[] to;
 
