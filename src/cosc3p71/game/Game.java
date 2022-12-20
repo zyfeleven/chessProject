@@ -731,7 +731,7 @@ public class Game {
             return state;
         }
         //calculate current heuristic
-        int v = this.board.heuristic(user);
+        int v = board.heuristic(user);
         state.setV(v);
         //set up alpha and beta
         int Alpha = alpha;
@@ -813,7 +813,7 @@ public class Game {
             state.setV(Integer.MAX_VALUE);
             return state;
         }
-        int v = this.board.heuristic(user);
+        int v = board.heuristic(user);
         state.setV(v);
         int Alpha = alpha;
         int Beta = beta;

@@ -778,32 +778,74 @@ public class Board {
         if (user == 1) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
+                    if(this.board[i][j].getUser() == 'b'){
+                        if(i == 4||i == 5){
+                            sum+=10;
+                        }
+                    }
+                    else if(this.board[i][j].getUser() == 'w'){
+                        if(i == 4||i == 5){
+                            sum-=10;
+                        }
+                    }
                     if (this.board[i][j].getName() == 'P') {
-                        sum += 1;
+                        sum += 10;
                     } else if (this.board[i][j].getName() == 'R') {
-                        sum += 6;
+                        sum += 60;
                     } else if (this.board[i][j].getName() == 'Q') {
-                        sum += 9;
+                        sum += 90;
                     } else if (this.board[i][j].getName() == 'B') {
-                        sum += 3;
+                        sum += 30;
                     } else if (this.board[i][j].getName() == 'N') {
-                        sum += 3;
+                        sum += 30;
+                    }
+                    else if (this.board[i][j].getName() == 'p') {
+                        sum -= 10;
+                    } else if (this.board[i][j].getName() == 'r') {
+                        sum -= 60;
+                    } else if (this.board[i][j].getName() == 'q') {
+                        sum -= 90;
+                    } else if (this.board[i][j].getName() == 'b') {
+                        sum -= 30;
+                    } else if (this.board[i][j].getName() == 'n') {
+                        sum -= 30;
                     }
                 }
             }
         } else {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
+                    if(this.board[i][j].getUser() == 'b'){
+                        if(i == 4||i == 5){
+                            sum-=10;
+                        }
+                    }
+                    else if(this.board[i][j].getUser() == 'w'){
+                        if(i == 4||i == 5){
+                            sum+=10;
+                        }
+                    }
                     if (this.board[i][j].getName() == 'p') {
-                        sum += 1;
+                        sum += 10;
                     } else if (this.board[i][j].getName() == 'r') {
-                        sum += 6;
+                        sum += 60;
                     } else if (this.board[i][j].getName() == 'q') {
-                        sum += 9;
+                        sum += 90;
                     } else if (this.board[i][j].getName() == 'b') {
-                        sum += 3;
+                        sum += 30;
                     } else if (this.board[i][j].getName() == 'n') {
-                        sum += 3;
+                        sum += 30;
+                    }
+                    else if (this.board[i][j].getName() == 'P') {
+                        sum -= 10;
+                    } else if (this.board[i][j].getName() == 'R') {
+                        sum -= 60;
+                    } else if (this.board[i][j].getName() == 'Q') {
+                        sum -= 90;
+                    } else if (this.board[i][j].getName() == 'B') {
+                        sum -= 30;
+                    } else if (this.board[i][j].getName() == 'N') {
+                        sum -= 30;
                     }
                 }
             }
