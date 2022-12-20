@@ -1,4 +1,4 @@
-package cosc3p71.groupProject.board;
+package cosc3p71.board;
 
 import java.util.ArrayList;
 

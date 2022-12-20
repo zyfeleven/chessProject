@@ -1,9 +1,11 @@
-import cosc3p71.groupProject.board.Board;
-import cosc3p71.groupProject.board.Move;
-import cosc3p71.groupProject.board.Record;
-import cosc3p71.groupProject.interfaces.Piece;
-import cosc3p71.groupProject.pieces.Queen;
-import cosc3p71.groupProject.pieces.nullPiece;
+package cosc3p71.game;
+
+import cosc3p71.board.Board;
+import cosc3p71.board.Move;
+import cosc3p71.board.Record;
+import cosc3p71.interfaces.Piece;
+import cosc3p71.pieces.Queen;
+import cosc3p71.pieces.nullPiece;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,7 +17,7 @@ public class Game {
     private boolean isCheckedW;
     private boolean gameOver;
 
-    Game() {
+    public Game() {
         System.out.println("Welcome to the chess game!");
         System.out.println("Please choose mode: ");
         System.out.println("1. User vs User  2. User vs AI  3. Practice mode 4. AI vs AI (just for fun)");

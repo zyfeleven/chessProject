@@ -1,66 +1,32 @@
-package cosc3p71.groupProject.pieces;
+package cosc3p71.pieces;
 
-import cosc3p71.groupProject.interfaces.Piece;
+import cosc3p71.interfaces.Piece;
 
-public class Queen implements Piece {
+public class Bishop implements Piece {
     private int[] position;
     private final char user;
     private final char name;
     private boolean firstStep;
 
-    public Queen(int[] position, char user) {
+    public Bishop(int[] position, char user) {
         this.position = position;
         this.user = user;
         if (user == 'b') {
-            this.name = 'Q';
+            this.name = 'B';
         } else {
-            this.name = 'q';
+            this.name = 'b';
         }
         this.firstStep = true;
     }
 
-    //Move rule for Queen: move horizontally or vertically or diagonally
+    //Move rule for Bishop: only move diagonally
     public boolean canMove(int[] pos, Piece[][] board) {
-        //if the destination is not in the same line
-        if ((this.position[0] != pos[0] && this.position[1] != pos[1])) {
-            //if the destination is also not in the same diagonal then return false
-            if ((Math.abs(pos[0] - this.position[0]) != Math.abs(pos[1] - this.position[1]))) {
-                return false;
-            }
-        }
-        //check vertically
-        if (this.position[0] == pos[0]) {
-            if (this.position[1] < pos[1]) {
-                for (int i = this.position[1] + 1; i < pos[1]; i++) {
-                    if (board[i][this.position[0]].getName() != '-') {
-                        return false;
-                    }
-                }
-            } else {
-                for (int i = pos[1] + 1; i < this.position[1]; i++) {
-                    if (board[i][this.position[0]].getName() != '-') {
-                        return false;
-                    }
-                }
-            }
-        } else if (this.position[1] == pos[1]) {
-            //check horizontally
-            if (this.position[0] < pos[0]) {
-                for (int i = this.position[0] + 1; i < pos[0]; i++) {
-                    if (board[i][this.position[1]].getName() != '-') {
-                        return false;
-                    }
-                }
-            } else {
-                for (int i = pos[0] + 1; i < this.position[0]; i++) {
-                    if (board[i][this.position[1]].getName() != '-') {
-                        return false;
-                    }
-                }
-            }
+        //if the destination is also not in the same diagonal then return false
+        if ((Math.abs(pos[0] - this.position[0]) != Math.abs(pos[1] - this.position[1]))) {
+            return false;
         }
         //check diagonally
-        else if (pos[0] > this.position[0] && pos[1] > this.position[1]) {
+        if (pos[0] > this.position[0] && pos[1] > this.position[1]) {
             for (int i = 1; i < pos[0] - this.position[0]; i++) {
                 if (board[this.position[0] + i][this.position[1] + i].getName() != '-') {
                     return false;
@@ -95,6 +61,8 @@ public class Queen implements Piece {
         this.position[1] = j;
     }
 
+
+
     public char getName() {
         return this.name;
     }
@@ -120,7 +88,8 @@ public class Queen implements Piece {
 
     @Override
     public Piece copyPiece() {
-        Piece returnPiece = new Queen(this.position, this.user);
+        Piece returnPiece = new Bishop(this.position, this.user);
         return returnPiece;
     }
+
 }

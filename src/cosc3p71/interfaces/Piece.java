@@ -1,4 +1,4 @@
-package cosc3p71.groupProject.interfaces;
+package cosc3p71.interfaces;
 
 public interface Piece {
     public boolean canMove(int[] position, Piece[][] board);//decide if the piece can move to the target position

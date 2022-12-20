@@ -1,6 +1,6 @@
-package cosc3p71.groupProject.pieces;
+package cosc3p71.pieces;
 
-import cosc3p71.groupProject.interfaces.Piece;
+import cosc3p71.interfaces.Piece;
 
 public class Pawn implements Piece {
     private int[] position;

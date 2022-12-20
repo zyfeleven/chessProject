@@ -1,4 +1,4 @@
-package cosc3p71.groupProject.board;
+package cosc3p71.board;
 
 public class Move {
     //this class is for storing movement information in order to keep tracking in minimax
